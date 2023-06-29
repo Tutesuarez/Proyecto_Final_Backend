@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { createHash, isValidPassword } from '../utils/bcrypt.js'
+import { createHash, generateToken, isValidPassword } from '../utils/bcrypt.js'
 import { userModel } from '../controller/models/user.model.js'
 import passport from 'passport'
 import '../config/passport.js'
+import { jwtValidation } from '../middleware/jwt.middleware.js'
 
 const routerSession = Router()
 
@@ -90,6 +91,51 @@ routerSession.get('/logout', async (req, res) => {
                 error: { message: err, status: true },
             })
     })
+})
+
+routerSession.post('/current', async(req, res)=>{
+    const { email, password } = req.body;
+
+    if (!email || !password){
+    console.log('Incomplete values')
+     return res.json({redirectURL: '/errorlogin'})
+    }
+
+    try {
+        const user = await userModel.findOne({ email })
+        if (!user) {
+            console.log('User not found')
+            return res.status(404).json({redirectURL: '/errorlogin'});
+
+        };
+        if (!isValidPassword(user, password)) {
+            console.log('Invalid credentials')
+        return res.json({redirectURL: '/errorlogin'})
+        }
+        delete user.password
+        req.session.user = user
+        console.log(user)
+  
+        if (user.isAdmin === true) {    
+            const token = generateToken(user)
+            res.status(200).json({message:'login', token})
+           //res.status(200).json({redirectURL: '/perfil'});
+          } else {
+            res.status(200).json({message:'login', token})
+            //res.status(200).json({redirectURL: '/'});
+          }
+        console.log('Login Success')
+        return user
+    } catch (error) {
+        res.status(500).send({ status: 'error' })
+    }
+
+})
+
+routerSession.get('/validation',jwtValidation , (req, res)=>{
+    const {email} = req.user
+    res.send(`Email ${email}`)
+
 })
 
 export default routerSession;
