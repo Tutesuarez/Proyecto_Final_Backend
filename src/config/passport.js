@@ -4,7 +4,7 @@ import { Strategy as GithubStrategy } from 'passport-github2'
 
 import { createHash, isValidPassword } from '../utils/bcrypt.js'
 import { userModel } from '../persistence/models/user.model.js'
-import "dotenv/config"
+import config from './config.js'
 
 const LocalStrategy = local.Strategy // defino estragia local
 
@@ -92,7 +92,7 @@ async function verifyCallback(accessToken, refreshToken, profile, done) {
 }
 
 passport.use('githubSignup', new GithubStrategy({
-    clientID: process.env.CLIENTID,
-    clientSecret: process.env.CLIENTSECRET,
+    clientID: config.clientID,
+    clientSecret: config.clientSecret,
     callbackURL: 'http://localhost:8080/api/session/githubSignup',
 }, verifyCallback))

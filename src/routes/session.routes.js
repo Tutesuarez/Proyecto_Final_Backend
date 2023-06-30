@@ -9,6 +9,7 @@ import config from '../config/config.js'
 
 const routerSession = Router()
 
+
 routerSession.post('/register', async (req, res) => {
     const { first_name, last_name, email, gender, password } = req.body
 
