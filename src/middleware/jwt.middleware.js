@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import "dotenv/config"
+import config from '../config/config.js'
 
 export const jwtValidation = (req, res, next) => {
     const authorizationHeader = req.get('Authorization')
@@ -7,7 +7,7 @@ export const jwtValidation = (req, res, next) => {
     console.log(token);
 
     try {
-        const isValidToken = jwt.verify(token, process.env.SECRET_JWT)
+        const isValidToken = jwt.verify(token, config.secret_jwt)
         req.user = isValidToken.user
         next()
     } catch (error) {

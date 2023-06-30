@@ -1,6 +1,5 @@
 import { Router } from "express"
-import ProductManager from "../controller/MongoDbManagers/ProductManager.js"
-import { getUser } from "../controller/user.controller.js"
+import ProductManager from "../persistence/MongoDbManagers/ProductManager.js"
 
 const router = Router();
 

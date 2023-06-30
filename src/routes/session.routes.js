@@ -1,10 +1,11 @@
 import { Router } from 'express'
-import { createHash, generateToken, isValidPassword } from '../utils/bcrypt.js'
-import { userModel } from '../controller/models/user.model.js'
+import { createHash, isValidPassword } from '../utils/bcrypt.js'
+import { generateToken } from '../utils/tokengenerator.js'
+import { userModel } from '../persistence/models/user.model.js'
 import passport from 'passport'
 import '../config/passport.js'
 import { jwtValidation } from '../middleware/jwt.middleware.js'
-import "dotenv/config"
+import config from '../config/config.js'
 
 const routerSession = Router()
 
@@ -50,7 +51,7 @@ routerSession.post('/login', async (req, res) => {
     }
 
     try {
-        if (req.body.email === process.env.ADMIN_EMAIL && req.body.password === process.env.ADMIN_PASSWORD) {
+        if (req.body.email === config.admin_email && req.body.password === config.admin_password) {
             req.session.user = {
                 first_name: 'Coder',
                 last_name: 'House',
@@ -114,7 +115,7 @@ routerSession.post('/current', async (req, res) => {
     }
 
     try {
-        if (req.body.email === process.env.ADMIN_EMAIL && req.body.password === process.env.ADMIN_PASSWORD) {
+        if (req.body.email === config.admin_email && req.body.password === config.admin_password) {
             req.session.user = {
                 first_name: 'Coder',
                 last_name: 'House',

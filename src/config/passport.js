@@ -3,7 +3,7 @@ import passport from 'passport' // importo el core del passport
 import { Strategy as GithubStrategy } from 'passport-github2'
 
 import { createHash, isValidPassword } from '../utils/bcrypt.js'
-import { userModel } from '../controller/models/user.model.js'
+import { userModel } from '../persistence/models/user.model.js'
 import "dotenv/config"
 
 const LocalStrategy = local.Strategy // defino estragia local

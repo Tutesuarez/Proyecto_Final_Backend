@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ProductManager from "../controller/MongoDbManagers/ProductManager.js";
+import ProductManager from "../persistence/MongoDbManagers/ProductManager.js";
 import { uploader } from "../path.js";
 
 

@@ -1,4 +1,4 @@
-import { productModel } from "../models/product.model.js"
+import { productModel } from "../../persistence/models/product.model.js"
 
 export default class ProductManager {
   
