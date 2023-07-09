@@ -1,4 +1,4 @@
-import { userModel } from "../models/user.model"
+import { userModel } from "../models/user.model.js"
 
 
 export default class userManager {
@@ -43,6 +43,15 @@ export default class userManager {
             const deleteUser = await userModel.deleteOne({ _id: id })
             return deleteUser
         } catch (error) {
+            return error
+        }
+    }
+
+    async findOneByEmail(email){
+        try{
+            const user = await userModel.findOne({email})
+            return user
+        }catch(error){
             return error
         }
     }

@@ -1,5 +1,5 @@
-import userManager from "../persistence/MongoDbManagers/UserManager"
-import { createHash } from "../utils/bcrypt"
+import userManager from "../persistence/MongoDbManagers/UserManager.js"
+import { createHash } from "../utils/bcrypt.js"
 
 const UserManager = new userManager()
 
@@ -23,7 +23,7 @@ export const findById = async(id)=>{
 
 export const createOne = async(obj)=>{
  try {
-    const hashPassword = await createHash(obj.password)  
+    const hashPassword = createHash(obj.password)  
     const newObj = {...obj, password: hashPassword}
     const newUser = await UserManager.createOne(newObj)
     return newUser
@@ -32,6 +32,19 @@ export const createOne = async(obj)=>{
  }
 }
 
-// Crear metodo para Actualizar un usuario
+export const updateOne = async (id, obj) => { 
+    try { const updatedUser = await UserManager.updateOne(id, obj) 
+        return updatedUser 
+    } catch (error) { 
+        return error 
+    } 
+}
 
-// Crear metodo para Eliminar un usuario
+export const deleteOne = async (id) => { 
+    try { 
+        const deletedUser = await UserManager.deleteOne(id) 
+        return deletedUser 
+    } catch (error) { 
+        return error 
+    } 
+}

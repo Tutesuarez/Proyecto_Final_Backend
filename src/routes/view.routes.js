@@ -1,114 +1,55 @@
 import { Router } from "express"
-import ProductManager from "../persistence/MongoDbManagers/ProductManager.js"
+import {getProducts} from '../controller/product.controller.js'
+import { privateAccess, publicAccess } from "../middleware/session..middleware.js";
+import { 
+  chatView, 
+  errorLoginView, 
+  errorSingUpView, 
+  loginView, 
+  newProductView, 
+  perfilView, 
+  singUpView 
+} from "../controller/view.controller.js"
+
 
 const router = Router();
 
-const productManager = new ProductManager()
 
+router.get("/", privateAccess, getProducts)
 
-const publicAccess = (req, res, next) =>{
-  if(req.session.user) return res.redirect('/')
-  next();
-};
+router.get("/realtimeproducts",privateAccess, newProductView)
 
-const privateAccess = (req, res, next) =>{
-  if(!req.session.user) return res.redirect('/login')
-  next();
-}
+router.get('/', publicAccess,loginView)
 
+router.get('/register', publicAccess, singUpView)
 
-router.get("/",privateAccess ,async(req, res) => {
-  try {
-    let keyword = req.query.keyword
-    let limit = parseInt(req.query.limit, 10) || 10
-    let page = parseInt(req.query.page, 10) || 1
-    const sort = req.query.sort
+router.get('/login', publicAccess, loginView)
 
-    console.log(keyword);
-    const{docs,hasPrevPage, hasNextPage, nextPage, prevPage }=await productManager.getProducts(keyword,limit, page, sort)
+router.get('/perfil', perfilView)
 
-    const products = JSON.stringify(docs)
-    const user = req.session.user
-    let admin=''
-    if (user.isAdmin===true){
-       admin='Admin'
-    } else {
-      admin='User'
-    }
-    
-    res.render('index',{
-      name: req.session.user.first_name,
-      admin:admin,
-      products:JSON.parse(products),
-      title: "FASHION PRODUCTS", 
-      style: "home",
-      hasPrevPage,
-      hasNextPage,
-      nextPage,
-      prevPage,
-      user: { email: req.session.email, rol: req.session.rol, name: req.session.name },
-      logued: true,
-    })
-  } catch (error) {
-    console.log(error)
-    res.status(500).send({ error })
-  }
-})
+router.get('/errorlogin', errorLoginView) 
 
+router.get('/errorsingup', errorSingUpView)
 
-router.get("/realtimeproducts",privateAccess, async (req, res) => {
-  const io = req.app.get("socketio")
-  const products = await productManager.getProducts();
+//  router.get("/realtimeproducts",privateAccess, async (req, res) => {
+// //   const io = req.app.get("socketio")
+// //   const products = await productManager.getProducts();
   
-  res.render("realTimeProducts", { products,
-    title: "FASHION - Real Time Products",
-    style: "home",
-  })
-  io.on("connection", (socket) => {
-    console.log("Client Conected")
-    socket.emit("products", products)
-  })
-})
-
-router.get('/', publicAccess, async (req, res) => {
-  res.render('login')
-});
-
-router.get('/register', publicAccess, (req, res) => {
-  res.render('register')
-});
-
-router.get('/login', publicAccess, (req, res) => {
-  res.render('login');
-});
-
-router.get('/perfil', async (req, res) => {  // falaria un auth
-  const user = req.session.user
-  res.render('perfil',
-  {
-    user,
-    title: "User",
-    style: "home",
-    logued: true,
-  })
-})
-
-router.get('/errorlogin', (req,res)=>{
-  res.render('errorLogin')
-}) 
-
-router.get('/errorsingup', (req,res)=>{
-  res.render('errorSingup')
-})
-
-router.get('/', privateAccess, (req, res) => {
-  res.redirect('/products')
-});
+//    res.render("realTimeProducts", {
+//     title: "FASHION - Load your products",
+//     style: "home",
+//   })
+// //   io.on("connection", (socket) => {
+// //     console.log("Client Conected")
+// //     socket.emit("products", products)
+// //   })
+//  })
 
 
-router.get("/chat",privateAccess ,(req, res) => {
-  res.render("chat", { style: "chatStyles" })
-})
 
+
+// rever como implificar ruta
+
+router.get("/chat",privateAccess, chatView)
 
 export default router;
