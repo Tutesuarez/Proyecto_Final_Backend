@@ -20,8 +20,7 @@ export default class CartManager {
     try {
       let result = await cartModel.findOne({ _id: id }, { __v: 0 })
 
-      if (result.length === 0) throw new Error(`The cart not exist.`)
-      console.log(result);
+      if (!result) throw new Error(`The cart not exist.`)
       return result
     } catch (error) {
       return { error: error.message }
@@ -30,15 +29,15 @@ export default class CartManager {
 
   async addProductToCart(cid, pid, quantity) {
     try {
-        const carts = await cartModel.find({ _id: cid })
-        const cart = carts[0]
+      const carts = await cartModel.find({ _id: cid })
+      const cart = carts[0]
 
-        let productExist = cart.products.find(({ product }) => product._id.toString() === pid);
+      let productExist = cart.products.find(({ product }) => product._id.toString() === pid);
       let result;
       if (productExist) {
         result = await cartModel.updateOne(
           { _id: cid, "products.product": pid },
-          { $inc: { "products.$.quantity": quantity } }
+          { $inc: { "products.$.quantity": quantity || 1 } }
         );
       } else {
         result = await cartModel.updateOne(
@@ -46,22 +45,22 @@ export default class CartManager {
           { $push: { products: { product: pid, quantity: quantity } } }
         );
       }
-        return {
-                success: `The product was added successfully`
-              }
+      return {
+        success: `The product was added successfully`
+      }
     } catch (error) {
-        console.error(error)
-        throw new Error(`Could not add product with ID ${pid} to cart with ID ${cid}.`)
+      console.error(error)
+      throw new Error(`Could not add product with ID ${pid} to cart with ID ${cid}.`)
     }
-}
+  }
 
   async productDelete(cid, pid) {
     try {
       const cart = await cartModel.findById(cid)
       const product = cart.products.find(prod => prod._id.toString() === pid)
-  
+
       if (product) {
-        await product.deleteOne({_id: pid})
+        await product.deleteOne({ _id: pid })
         await cart.save()
         console.log('Product successfully deleted from cart.')
         return {
@@ -74,7 +73,7 @@ export default class CartManager {
       console.error(error)
     }
   }
-  
+
   emptyCart = async (cid) => {
     try {
       const result = await cartModel.updateOne({ _id: cid }, { products: [] });
@@ -107,7 +106,7 @@ export default class CartManager {
       return { error: error.message };
     }
   }
-  
+
   async checkIfProductExist(pid) {
     let productManager = new ProductManager()
     let product = await productManager.getProductById(pid)
