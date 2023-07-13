@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { authorizationRole } from "../middleware/session..middleware.js";
 import {
   addCart, 
   getCart, 
@@ -75,18 +76,18 @@ const router = Router()
 
 /////
 
-router.post("/", addCart)
+router.post("/", authorizationRole(["user"]), addCart)
 
-router.get("/:cid", getCart)
+router.get("/:cid", authorizationRole(["user"]), getCart)
 
-router.post("/:cid/products/:pid", addProductToCart)
+router.post("/:cid/products/:pid", authorizationRole(["user"]), addProductToCart)
 
-router.put("/:cid", updateProduct);
+router.put("/:cid", authorizationRole(["user"]), updateProduct);
 
-router.put("/:cid/products/:pid", updateProductQuantity);
+router.put("/:cid/products/:pid", authorizationRole(["user"]), updateProductQuantity);
 
-router.delete("/:cid/products/:pid", productDelete);
+router.delete("/:cid/products/:pid", authorizationRole(["user"]), productDelete);
 
-router.delete('/:cid', emptyCart)
+router.delete('/:cid', authorizationRole(["user"]), emptyCart)
 
 export default router

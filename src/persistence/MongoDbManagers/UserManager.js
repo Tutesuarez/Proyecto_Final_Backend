@@ -1,5 +1,5 @@
 import { userModel } from "../models/user.model.js"
-
+import UserDTO from "../../DTO/user.dto.js"
 
 export default class userManager {
     async findall() {
@@ -22,7 +22,8 @@ export default class userManager {
 
     async createOne(obj) {
         try {
-            const newUser = await userModel.createOne(obj)
+            const userDTO = new UserDTO(obj)
+            const newUser = await userModel.createOne(userDTO)
             return newUser
         } catch (error) {
             return error

@@ -1,4 +1,5 @@
 import { productModel } from "../../persistence/models/product.model.js"
+import ProductDTO from "../../DTO/product.dto.js";
 
 export default class ProductManager {
 
@@ -9,7 +10,8 @@ export default class ProductManager {
       if (await this.#checkIfCodeExists(product.code))
         throw new Error(`The product code already exists.`)
       console.log(' estamos cargando tu producto');
-      let result = await productModel.create(product)
+      let productDTo = new ProductDTO(product)
+      let result = await productModel.create(productDTo)
       return {
         success: `The product was successfully added.`,
         payload: result,

@@ -22,7 +22,7 @@ export const login = async(req, res)=>{
                 gender: '',
                 email: req.body.email,
                 password: req.body.password,
-                isAdmin: true
+                role: 'admin'
             }
             return res.status(200).json({ redirectURL: '/perfil' });
         }
@@ -40,7 +40,7 @@ export const login = async(req, res)=>{
         req.session.user = user
         console.log(user)
         
-        if (user.isAdmin === true) {
+        if (user.role === 'admin') {
             res.status(200).json({ redirectURL: '/perfil' });
         } else {
             res.status(200).json({ redirectURL: '/' });
@@ -109,7 +109,7 @@ export const current = async (req, res) => {
                 gender: '',
                 email: req.body.email,
                 password: req.body.password,
-                isAdmin: true
+                role: 'admin'
             }
             const user = req.session.user
             const token = generateToken(user)
@@ -130,7 +130,7 @@ export const current = async (req, res) => {
         req.session.user = user
         console.log(user)
         
-        if (user.isAdmin === true) {
+        if (user.role === 'admin') {
             const token = generateToken(user)
             res.status(200).json({ message: 'login', token })
         } else {

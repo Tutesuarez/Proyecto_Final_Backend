@@ -1,6 +1,6 @@
 import { Router } from "express"
 import {getProducts} from '../controller/product.controller.js'
-import { privateAccess, publicAccess } from "../middleware/session..middleware.js";
+import {  publicAccess, authorizationRole } from "../middleware/session..middleware.js";
 import { 
   chatView, 
   errorLoginView, 
@@ -15,17 +15,17 @@ import {
 const router = Router();
 
 
-router.get("/", privateAccess, getProducts)
+router.get("/", authorizationRole(["admin", "user"]), getProducts)
 
-router.get("/realtimeproducts",privateAccess, newProductView)
+router.get("/realtimeproducts", authorizationRole(["admin"]), newProductView)
 
-router.get('/', publicAccess,loginView)
+router.get('/',publicAccess,loginView)
 
-router.get('/register', publicAccess, singUpView)
+router.get('/register',publicAccess, singUpView)
 
-router.get('/login', publicAccess, loginView)
+router.get('/login',publicAccess, loginView)
 
-router.get('/perfil', perfilView)
+router.get('/perfil', authorizationRole(["admin", "user"]), perfilView)
 
 router.get('/errorlogin', errorLoginView) 
 
@@ -50,6 +50,6 @@ router.get('/errorsingup', errorSingUpView)
 
 // rever como implificar ruta
 
-router.get("/chat",privateAccess, chatView)
+router.get("/chat", authorizationRole(["user"]), chatView)
 
 export default router;

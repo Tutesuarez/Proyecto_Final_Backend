@@ -12,5 +12,7 @@ export default{
     clientSecret: process.env.CLIENTSECRET,
     admin_email: process.env.ADMIN_EMAIL,
     admin_password: process.env.ADMIN_PASSWORD,
-    secret_jwt: process.env.SECRET_JWT
+    secret_jwt: process.env.SECRET_JWT,
+    google_client_id: process.env.GOOGLE_CLIENT_ID,
+    google_client_secret :process.env.GOOGLE_CLIENT_SECRET
 }

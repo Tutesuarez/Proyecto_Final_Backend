@@ -18,16 +18,10 @@ const getProducts = async (req, res) => {
 
         const products = JSON.stringify(docs)
         const user = req.session.user
-        let admin = ''
-        if (user.isAdmin === true) {
-            admin = 'Admin'
-        } else {
-            admin = 'User'
-        }
 
         res.render('index', {
             name: req.session.user.first_name,
-            admin: admin,
+            role: req.session.user.role,
             products: JSON.parse(products),
             title: "FASHION PRODUCTS",
             style: "home",

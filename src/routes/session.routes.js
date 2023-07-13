@@ -12,6 +12,7 @@ routerSession.get('/logout', logout)
 routerSession.post('/register', register)
 routerSession.post('/current', current)
 routerSession.get('/validation', jwtValidation, validation)
+// routerSession.get('/validation', passport.authenticate('jwtStrategy',{session: false}), validation)
 
 routerSession.get('/githubSignup'), passport.authenticate('githubSignup', { scope: ['user:email'] }), async (req, res) => { }
 routerSession.get('/githubSignup', passport.authenticate('githubSignup', { failureRedirect: '/login' }),
@@ -19,6 +20,13 @@ routerSession.get('/githubSignup', passport.authenticate('githubSignup', { failu
         req.session.user = req.user;
         res.redirect('/')
     })
+
+routerSession.get('/GoogleSignup', passport.authenticate('GoogleStrategy',{ scope: ['user:email'] }))
+routerSession.get('/google', passport.authenticate('GoogleStrategy',{failureRedirect: '/login'}),
+function (req, res) {
+    req.session.user = req.user;
+    res.redirect('/')
+})
 
 
 export default routerSession;

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { uploader } from "../path.js";
+import { authorizationRole } from "../middleware/session..middleware.js";
 import {
   getProducts,
   addProduct,
@@ -10,15 +11,15 @@ import {
 
 const router = Router();
 
-router.get('/:pid', getProductsById)
+router.get('/:pid', authorizationRole(["user", "admin"]), getProductsById)
 
-router.delete('/:pid', deleteProduct)
+router.delete('/:pid', authorizationRole(["admin"]), deleteProduct)
 
-router.put('/:pid', updateProduct)
+router.put('/:pid', authorizationRole(["admin"]), updateProduct)
 
-router.post('/',uploader.array("thumbnails"), addProduct)
+router.post('/', authorizationRole(["admin"]), uploader.array("thumbnails"), addProduct)
 
-router.get('/', getProducts)
+router.get('/', authorizationRole(["user", "admin"]),getProducts)
 
 
 
