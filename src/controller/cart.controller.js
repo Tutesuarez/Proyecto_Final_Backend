@@ -6,8 +6,8 @@ import {
     updateProductQuantity as updateProductQuantityServices,
     productDelete as productDeleteServices,
     emptyCart as emptyCartServices
-} from '../services/cart.services.js'
-import { createTicket } from '../services/ticket.services.js'
+} from '../services/cart.service.js'
+import { createTicket } from '../services/ticket.service.js'
 import {
     updateProduct as updateProductServices
 } from '../services/product.service.js'
