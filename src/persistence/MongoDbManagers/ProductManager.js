@@ -57,10 +57,13 @@ export default class ProductManager {
 
   async updateProduct(id, newParams) {
     try {
-      if (this.#checkIfEmptyField(newParams))
-        throw new Error(`All the fields are mandatory.`)
-      let result = await productModel.updateOne({ _id: id }, newParams)
-      return { success: `The product was update succefully`, payload: result }
+      if (!this.#checkIfEmptyField(newParams)){
+        return new Error(`All the fields are mandatory.`)
+      }else{
+        console.log('Esto llega aqui',newParams);
+        let result = await productModel.updateOne({ _id: id }, newParams)
+        return { success: `The product was update succefully`, payload: result }
+      }
     } catch (error) {
       return { error: error.message }
     }

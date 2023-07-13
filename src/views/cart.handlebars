@@ -4,11 +4,21 @@
   </div>
   <div>
     <h3>Products</h3>
-  </div>
-  {{#each products}}
-  <div>
-    <p>{{this.product.title}}</p>
-    <span>${{this.product.price}} x {{this.quantity}} Unidades</span>
-  </div>
-  {{/each}}
+   {{#if products}}
+    {{#each products}}
+    <div>
+      <p>{{this.product.title}}</p>
+      <span>${{this.product.price}} x {{this.quantity}} Units</span>
+    </div>
+    {{/each}}
+    <div>
+      <button onclick="location.href='/api/carts/{{cid}}/empty'" >Empty Cart</button>
+      <button onclick="location.href='/api/carts/{{cid}}/pucharse'">Check Out</button>
+    </div>
+  {{else}}
+    <div>
+      <h3>Empty Cart.</h3>
+    </div>
+  {{/if}}
+
 </section>

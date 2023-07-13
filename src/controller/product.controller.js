@@ -19,6 +19,7 @@ const getProducts = async (req, res) => {
         const products = JSON.stringify(docs)
         const user = req.session.user
 
+
         res.render('index', {
             name: req.session.user.first_name,
             role: req.session.user.role,

@@ -7,7 +7,8 @@ import {
   updateProductQuantity, 
   productDelete,
   emptyCart,
-  updateProduct
+  updateProduct,
+  preCheckOut
 } from '../controller/cart.controller.js'
 
 const router = Router()
@@ -88,6 +89,9 @@ router.put("/:cid/products/:pid", authorizationRole(["user"]), updateProductQuan
 
 router.delete("/:cid/products/:pid", authorizationRole(["user"]), productDelete);
 
-router.delete('/:cid', authorizationRole(["user"]), emptyCart)
+router.get('/:cid/empty', authorizationRole(["user"]), emptyCart)
+
+router.get('/:cid/pucharse', authorizationRole(["user"]), preCheckOut)
+
 
 export default router
