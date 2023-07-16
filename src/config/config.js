@@ -14,5 +14,8 @@ export default{
     admin_password: process.env.ADMIN_PASSWORD,
     secret_jwt: process.env.SECRET_JWT,
     google_client_id: process.env.GOOGLE_CLIENT_ID,
-    google_client_secret :process.env.GOOGLE_CLIENT_SECRET
+    google_client_secret :process.env.GOOGLE_CLIENT_SECRET,
+    gmail_user: process.env.GMAIL_USER,
+    gmail_password: process.env.GMAIL_PASSWORD
+    
 }

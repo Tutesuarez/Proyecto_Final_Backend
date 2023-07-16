@@ -11,7 +11,7 @@ import { createTicket } from '../services/ticket.service.js'
 import {
     updateProduct as updateProductServices
 } from '../services/product.service.js'
-
+import {sendMessage} from '../controller/message.controller.js'
 
 export const addCart = async (req, res) => {
     let resp = await addCartServices();
@@ -94,7 +94,7 @@ export const emptyCart = async (req, res) => {
         ? res.status(400).send({ ...resp })
         : res.render('cart');
 };
-
+//  aca hay que ponerpara que ejecute la ruta de envir email
 export const preCheckOut = async (req, res) => {
     const { cid } = req.params
     console.log(cid);
@@ -118,8 +118,11 @@ export const preCheckOut = async (req, res) => {
         }
 
         if (amount > 0) {
-            const resp = await createTicket({ amount, purchaser })  
+            code = codeGenerator()
+            const resp = await createTicket({ amount, purchaser, code })  
             if (resp?.error) {
+                const codigo = resp.code 
+                await sendMessage(codigo)
                 return res.status(400).send({ ...resp })
             } else {
                 await updateProductsServices(cid, nonStockProduct)

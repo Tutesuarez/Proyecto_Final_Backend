@@ -17,6 +17,7 @@ import cartRouter from "./routes/cart.routes.js"
 import productsRouter from "./routes/products.routes.js"
 import viewsRouter from "./routes/view.routes.js"
 import routerSession from "./routes/session.routes.js"
+import messagesRouter from './routes/messages.routes.js'
 
 
 const messageManager = new MessageManager();
@@ -53,6 +54,7 @@ app.use("/", viewsRouter)
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
 app.use('/api/session', routerSession)
+app.use('/api/message', messagesRouter)
 
 const socketio = app.listen(port, () =>
   console.log(`Server running at http://localhost:${port}`)
