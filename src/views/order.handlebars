@@ -2,14 +2,17 @@
 <div>
     <h2> Your pucharse</h2>
 </div>
-
+{{#if resp3}}
 <div>
-    <p>Code: </p>
-    <p>Date: </p>
-    <p>Buyer: </p>
-    <p>Pucharse Amount</p>
+    <p>Code: {{resp3.code}}</p>
+    <p>Date: {{resp3.purchase_datetime}}</p>
+    <p>Buyer: {{resp3.purchaser}} </p>
+    <p>Pucharse Amount: {{resp3.amount}} </p>
 </div>
-
+{{/if}}
+<div>
+    <p>Thank you for shopping at FASHION. You will receive the purchase summary in your email </p>
+</div>
 <div>
     <button onclick="location.href='/'"> Back to Home </button>
 </div>

@@ -1,5 +1,7 @@
+import UserDTO from "../DTO/user.dto.js"
 import userManager from "../persistence/MongoDbManagers/UserManager.js"
 import { createHash } from "../utils/bcrypt.js"
+
 
 const UserManager = new userManager()
 
@@ -25,7 +27,8 @@ export const createOne = async(obj)=>{
  try {
     const hashPassword = createHash(obj.password)  
     const newObj = {...obj, password: hashPassword}
-    const newUser = await UserManager.createOne(newObj)
+    const newObjDTO = new UserDTO(newObj)
+    const newUser = await UserManager.createOne(newObjDTO)
     return newUser
  } catch (error) {
     return error

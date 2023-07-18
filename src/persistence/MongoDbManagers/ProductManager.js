@@ -1,17 +1,15 @@
 import { productModel } from "../../persistence/models/product.model.js"
-import ProductDTO from "../../DTO/product.dto.js";
 
 export default class ProductManager {
 
   async addProduct(product) {
     try {
-      if (this.#checkMandatoryFields(product))
-        throw new Error(`All the fields are mandatory.`)
-      if (await this.#checkIfCodeExists(product.code))
-        throw new Error(`The product code already exists.`)
+      // if (this.#checkMandatoryFields(product))
+      //   throw new Error(`All the fields are mandatory.`)
+      // if (await this.#checkIfCodeExists(product.code))
+      //   throw new Error(`The product code already exists.`)
       console.log(' estamos cargando tu producto');
-      let productDTo = new ProductDTO(product)
-      let result = await productModel.create(productDTo)
+      let result = await productModel.create(product)
       return {
         success: `The product was successfully added.`,
         payload: result,
@@ -89,7 +87,7 @@ export default class ProductManager {
   }
 
   #checkMandatoryFields(fields) {
-    if (Object.keys(fields).length !== 8) return true
+    if (Object.keys(fields).length !== 6) return true
     return this.#checkIfEmptyField(fields)
   }
 

@@ -1,24 +1,23 @@
-import {
-  readTicket as readTicketservices,
-} from '../services/ticket.service.js'
+import { transporter } from '../utils/nodemailer.js'
 
 
-
-const sendMessage = async () =>{
-
-  try {
-    const ticket = await readTicketservices(code)
-    await transporter.sendMail({
-        //to: ticket.purchaser,
-        to: 'suarezmatiasjose@gmail.com',
-        subjet:'Gracias por su compra',
-        text:'este es el primer email'
-    })
-    res.status(200).send(' Mail Sent')
-} catch (error) {
-    res.status(500).json({ message: error })
+export const sendMessage = async (email, code, amount) => {
+    try {
+        await transporter.sendMail({
+            from: 'FASHION',
+            to: email,
+            subject: 'Purchase order',
+            html: `<div>
+                        <h1>Thank you for shopping at FASHION</h1>\n
+                        <p>your order will be arriving shortly</p>\n
+                        <p>Order Resume:</p>\n
+                        <ul>
+                            <li>Order code: ${code}</li>
+                            <li>Total amount: $${amount}</li>
+                        </ul>
+                    </div>`,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error })
+    }
 }
-}
-
-
-export default sendMessage()

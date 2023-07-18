@@ -12,7 +12,7 @@ routerSession.get('/logout', logout)
 routerSession.post('/register', register)
 routerSession.post('/current', current)
 routerSession.get('/validation', jwtValidation, validation)
-// routerSession.get('/validation', passport.authenticate('jwtStrategy',{session: false}), validation)
+
 
 routerSession.get('/githubSignup'), passport.authenticate('githubSignup', { scope: ['user:email'] }), async (req, res) => { }
 routerSession.get('/githubSignup', passport.authenticate('githubSignup', { failureRedirect: '/login' }),

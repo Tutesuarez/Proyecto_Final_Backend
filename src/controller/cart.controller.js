@@ -11,7 +11,8 @@ import { createTicket } from '../services/ticket.service.js'
 import {
     updateProduct as updateProductServices
 } from '../services/product.service.js'
-import {sendMessage} from '../controller/message.controller.js'
+import { sendMessage } from './message.controller.js'
+import { codeGenerator } from "../controller/ticket.controller.js"
 
 export const addCart = async (req, res) => {
     let resp = await addCartServices();
@@ -39,7 +40,7 @@ export const getCart = async (req, res) => {
     let prod = JSON.stringify(resp2)
     resp?.error
         ? res.status(404).send(res)
-        : res.render('cart',{ products: JSON.parse(prod),cid: cid, title:"FASHION | CART" , style:"home" })
+        : res.render('cart', { products: JSON.parse(prod), cid: cid, title: "FASHION | CART", style: "home" })
 }
 
 export const deleteCart = async (req, res) => {
@@ -51,7 +52,7 @@ export const deleteCart = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-    const {cid} = req.params
+    const { cid } = req.params
     const { products } = req.body
     let resp = await updateProductsServices(cid, products);
     resp?.error
@@ -59,14 +60,14 @@ export const updateProduct = async (req, res) => {
         : res.send({ ...resp });
 };
 
-// export const updateCart = async (request, response) => {
-//     const { cid } = request.params;
-//     const { products } = request.body;
-//     let res = await CART_SERVICES.updateCart(cid, products);
-//     res?.error
-//       ? response.status(400).send({ ...res })
-//       : response.send({ ...res });
-//   };
+export const updateCart = async (request, response) => {
+    const { cid } = request.params;
+    const { products } = request.body;
+    let res = await CART_SERVICES.updateCart(cid, products);
+    res?.error
+      ? response.status(400).send({ ...res })
+      : response.send({ ...res });
+  };
 
 
 export const updateProductQuantity = async (req, res) => {
@@ -94,11 +95,12 @@ export const emptyCart = async (req, res) => {
         ? res.status(400).send({ ...resp })
         : res.render('cart');
 };
-//  aca hay que ponerpara que ejecute la ruta de envir email
+
+
 export const preCheckOut = async (req, res) => {
-    const { cid } = req.params
+    const { cid } = req.params;
     console.log(cid);
-    const {user} = req.session.user;
+    const { user } = req.session.user;
     const cart = await getCartServices(cid);
 
     if (cart.products.length > 0) {
@@ -118,20 +120,30 @@ export const preCheckOut = async (req, res) => {
         }
 
         if (amount > 0) {
-            code = codeGenerator()
-            const resp = await createTicket({ amount, purchaser, code })  
+            const code = codeGenerator();
+            const resp = await createTicket({ amount, purchaser, code });
+            const resp2 =JSON.stringify(resp)
+            const resp3 =JSON.parse(resp2)
+            const email = resp3.purchaser
+            const code2 = resp3.code
+            const amount2 = resp3.amount
+
+            console.log(resp3);
             if (resp?.error) {
-                const codigo = resp.code 
-                await sendMessage(codigo)
-                return res.status(400).send({ ...resp })
+                return res.status(400).send({ ...resp });
             } else {
-                await updateProductsServices(cid, nonStockProduct)
-                return res.send({ resp, payload: nonStockProduct });
+                try {
+                    await updateProductsServices(cid, nonStockProduct);
+                    await sendMessage(email,code2,amount2)
+                    return res.render('order', {resp3});
+                } catch (error) {
+                    return res.status(500).json({ message: error });
+                }
             }
         } else {
-            return res.send({ resp: "No products available." })
+            return res.send({ resp: "No products available." });
         }
     } else {
-        return res.send({ resp: "There are no products in the cart." })
+        return res.send({ resp: "There are no products in the cart." });
     }
 }

@@ -1,17 +1,14 @@
 class ProductDTO {
-    async product(product) {
-        let productParams = {
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            thumbnails: product.thumbnails,
-            code: product.code,
-            stock: product.stock,
-            category: product.category,
-            status: product.status,
-        }
-        return productParams
+    constructor(product) {
+      this.title = product.title;
+      this.description = product.description;
+      this.price = product.price;
+      this.thumbnails = product.thumbnails;
+      this.code = product.code;
+      this.stock = product.stock;
+      this.category = product.category;
+      this.status = product.status;
     }
-}
-
-export default ProductDTO;
+  }
+  
+  export default ProductDTO;

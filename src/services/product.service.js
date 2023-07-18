@@ -1,3 +1,4 @@
+import ProductDTO from "../DTO/product.dto.js";
 import ProductManager from "../persistence/MongoDbManagers/ProductManager.js"
 
 const productManager = new ProductManager()
@@ -8,7 +9,8 @@ const getProducts = async (keyword, limit, page, sort) =>{
 };
 
 const addProduct = async (newProduct) =>{
-    const productAdded = await productManager.addProduct(newProduct)
+    const productByDTO = new ProductDTO(newProduct)
+    const productAdded = await productManager.addProduct(productByDTO)
     return productAdded
 };
 

@@ -33,6 +33,6 @@
   },
   "devDependencies": {
     "express-handlebars": "^7.0.7",
-    "nodemon": "^1.14.9"
+    "nodemon": "^3.0.1"
   }
 }
