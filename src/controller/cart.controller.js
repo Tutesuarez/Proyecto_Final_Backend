@@ -135,7 +135,7 @@ export const preCheckOut = async (req, res) => {
                 try {
                     await updateProductsServices(cid, nonStockProduct);
                     await sendMessage(email,code2,amount2)
-                    return res.render('order', {resp3});
+                    return res.render('order',resp3);
                 } catch (error) {
                     return res.status(500).json({ message: error });
                 }
