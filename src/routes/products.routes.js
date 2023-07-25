@@ -6,7 +6,8 @@ import {
   addProduct,
   getProductsById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getMocksProducts
 } from '../controller/product.controller.js'
 
 const router = Router();
@@ -20,6 +21,8 @@ router.put('/:pid', authorizationRole(["admin"]), updateProduct)
 router.post('/', authorizationRole(["admin"]), uploader.array("thumbnails"), addProduct)
 
 router.get('/', authorizationRole(["user", "admin"]),getProducts)
+
+router.get('/mockingproducts', getMocksProducts)
 
 
 

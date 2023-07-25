@@ -5,6 +5,7 @@ import {
     updateProduct as updateProductServices,
     deleteProduct as deleteProductServices
 } from '../services/product.service.js'
+import generateProduct from "../utils/faker.js"
 
 const getProducts = async (req, res) => {
     try {
@@ -92,10 +93,20 @@ const deleteProduct = async (req, res) => {
     }
 }
 
+ const getMocksProducts = async (req, res) => {
+    let mockproducts = []
+    for (let i=0; i<100; i++) {
+        const product = generateProduct()
+        mockproducts.push(product);
+    };
+    res.json({sutatus:'success', payload: mockproducts})
+  };
+
 export {
     getProducts,
     addProduct,
     getProductsById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getMocksProducts
 }
