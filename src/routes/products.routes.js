@@ -7,8 +7,8 @@ import {
   getProductsById,
   updateProduct,
   deleteProduct,
-  getMocksProducts
 } from '../controller/product.controller.js'
+import errorHandler from '../middleware/errors/index.js'
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.post('/', authorizationRole(["admin"]), uploader.array("thumbnails"), add
 
 router.get('/', authorizationRole(["user", "admin"]),getProducts)
 
-router.get('/mockingproducts', getMocksProducts)
+router.use(errorHandler)
 
 
 

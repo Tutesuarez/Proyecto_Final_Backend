@@ -6,6 +6,9 @@ import {
     deleteProduct as deleteProductServices
 } from '../services/product.service.js'
 import generateProduct from "../utils/faker.js"
+import CustomError from "../middleware/errors/CustomError.js"
+import { generateProductErrorAttributes } from "../middleware/errors/info.js";
+import EErrors from '../middleware/errors/enumeration.js'
 
 const getProducts = async (req, res) => {
     try {
@@ -43,16 +46,25 @@ const getProducts = async (req, res) => {
 
 const addProduct = async (req, res) => {
     const io = req.app.get("socketio")
-    const{files, body} = req
-    let product = {...body, stusus:true}
+    const { files, body } = req
+    let product = { ...body, status: true }
     let thumbnails = files.map((file) => file.originalname)
     product.thumbnails = thumbnails
-try {
-    const result =  await addProductServices(product)
-    const result2 = await getProductsServices()
-    res.send(result)
-    io.emit("products", result2)
-} catch (error) {
+
+    if (!product.title || !product.description || !product.price || !product.code || !product.status || !product.stock || !product.category) {
+        throw CustomError.createError({
+            name: "TYPE_ERROR",
+            cause: generateProductErrorAttributes(body),
+            message: "Error trying to create the product.",
+            code: EErrors.INVALID_TYPE_ERROR
+        })
+    }
+    try {
+        const result = await addProductServices(product)
+        const result2 = await getProductsServices()
+        res.send(result)
+        io.emit("products", result2)
+    } catch (error) {
         console.log(error)
         res.status(500).send({ error })
     }
@@ -63,7 +75,7 @@ const getProductsById = async (req, res) => {
     let id = req.params.pid
     try {
         const result = await getProductsByIdServices(id)
-        res.send({ result:'success', payload: result })
+        res.send({ result: 'success', payload: result })
     } catch (error) {
         console.log(error)
         res.status(500).send({ error })
@@ -93,14 +105,14 @@ const deleteProduct = async (req, res) => {
     }
 }
 
- const getMocksProducts = async (req, res) => {
+const getMocksProducts = async (req, res) => {
     let mockproducts = []
-    for (let i=0; i<100; i++) {
+    for (let i = 0; i < 100; i++) {
         const product = generateProduct()
         mockproducts.push(product);
     };
-    res.json({sutatus:'success', payload: mockproducts})
-  };
+    res.json({ sutatus: 'success', payload: mockproducts })
+};
 
 export {
     getProducts,
