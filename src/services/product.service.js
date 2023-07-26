@@ -15,7 +15,7 @@ const addProduct = async (newProduct) =>{
 };
 
 const getProductsById = async (id) =>{
-    const product = await productManager.getProductsById(id)
+    const product = await productManager.getProductById(id)
     return product
 }
 

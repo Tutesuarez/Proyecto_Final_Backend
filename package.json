@@ -32,6 +32,7 @@
     "socket.io": "^4.6.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "express-handlebars": "^7.0.7",
     "nodemon": "^3.0.1"
   }

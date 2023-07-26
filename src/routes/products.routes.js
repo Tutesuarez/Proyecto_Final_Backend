@@ -6,8 +6,9 @@ import {
   addProduct,
   getProductsById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 } from '../controller/product.controller.js'
+import errorHandler from '../middleware/errors/index.js'
 
 const router = Router();
 
@@ -20,6 +21,8 @@ router.put('/:pid', authorizationRole(["admin"]), updateProduct)
 router.post('/', authorizationRole(["admin"]), uploader.array("thumbnails"), addProduct)
 
 router.get('/', authorizationRole(["user", "admin"]),getProducts)
+
+router.use(errorHandler)
 
 
 

@@ -30,8 +30,6 @@ export default class ProductManager {
       }
       sort = sortOption;
     }
-    console.log(key);
-
 
     if (key === undefined) {
       const products = await productModel.paginate({ stock: { $ne: 0 } }, { limit, page, sort }) // Busca elementos que solo se encuentre con stock
@@ -58,7 +56,6 @@ export default class ProductManager {
       if (!this.#checkIfEmptyField(newParams)){
         return new Error(`All the fields are mandatory.`)
       }else{
-        console.log('Esto llega aqui',newParams);
         let result = await productModel.updateOne({ _id: id }, newParams)
         return { success: `The product was update succefully`, payload: result }
       }
