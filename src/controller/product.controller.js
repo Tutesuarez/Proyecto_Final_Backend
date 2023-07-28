@@ -9,6 +9,8 @@ import generateProduct from "../utils/faker.js"
 import CustomError from "../middleware/errors/CustomError.js"
 import { generateProductErrorAttributes } from "../middleware/errors/info.js";
 import EErrors from '../middleware/errors/enumeration.js'
+import { logger } from '../utils/logger.js';
+
 
 const getProducts = async (req, res) => {
     try {
@@ -38,8 +40,16 @@ const getProducts = async (req, res) => {
             logued: true,
         })
     } catch (error) {
-        console.log(error)
-        res.status(500).send({ error })
+        if (CustomError.createError(error)) {
+            // Registra el error personalizado con información adicional
+            logger.error(`Error Personalizado: ${error.name} - ${error.message}`, {
+              cause: error.cause,
+              code: error.code,
+            });
+          } else {
+            // Registra otros errores normalmente
+            logger.error(error);
+          }
     }
 }
 
@@ -50,7 +60,7 @@ const addProduct = async (req, res) => {
     let product = { ...body, status: true }
     let thumbnails = files.map((file) => file.originalname)
     product.thumbnails = thumbnails
-
+    try {
     if (!product.title || !product.description || !product.price || !product.code || !product.status || !product.stock || !product.category) {
         throw CustomError.createError({
             name: "TYPE_ERROR",
@@ -59,14 +69,22 @@ const addProduct = async (req, res) => {
             code: EErrors.INVALID_TYPE_ERROR
         })
     }
-    try {
+   
         const result = await addProductServices(product)
         const result2 = await getProductsServices()
         res.send(result)
         io.emit("products", result2)
     } catch (error) {
-        console.log(error)
-        res.status(500).send({ error })
+        if (CustomError.createError(error)) {
+            // Registra el error personalizado con información adicional
+            logger.error(`Error Personalizado: ${error.name} - ${error.message}`, {
+              cause: error.cause,
+              code: error.code,
+            });
+          } else {
+            // Registra otros errores normalmente
+            logger.error(error);
+          }
     }
 
 }
@@ -77,7 +95,16 @@ const getProductsById = async (req, res) => {
         const result = await getProductsByIdServices(id)
         res.send({ result: 'success', payload: result })
     } catch (error) {
-        console.log(error)
+        if (CustomError.createError(error)) {
+            // Registra el error personalizado con información adicional
+            logger.error(`Error Personalizado: ${error.name} - ${error.message}`, {
+              cause: error.cause,
+              code: error.code,
+            });
+          } else {
+            // Registra otros errores normalmente
+            logger.error(error);
+          }
         res.status(500).send({ error })
     }
 };
@@ -89,7 +116,16 @@ const updateProduct = async (req, res) => {
         const result = await updateProductServices(id, updateObj)
         res.send({ status: "success", payload: result })
     } catch (error) {
-        console.log(error)
+        if (CustomError.createError(error)) {
+            // Registra el error personalizado con información adicional
+            logger.error(`Error Personalizado: ${error.name} - ${error.message}`, {
+              cause: error.cause,
+              code: error.code,
+            });
+          } else {
+            // Registra otros errores normalmente
+            logger.error(error);
+          }
         res.status(500).send({ error })
     }
 }
@@ -100,7 +136,16 @@ const deleteProduct = async (req, res) => {
         const product = await deleteProductServices(id)
         res.send({ status: "success", payload: product })
     } catch (error) {
-        console.log(error)
+        if (CustomError.createError(error)) {
+            // Registra el error personalizado con información adicional
+            logger.error(`Error Personalizado: ${error.name} - ${error.message}`, {
+              cause: error.cause,
+              code: error.code,
+            });
+          } else {
+            // Registra otros errores normalmente
+            logger.error(error);
+          }
         res.status(500).send({ error })
     }
 }

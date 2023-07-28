@@ -16,6 +16,7 @@ export default{
     google_client_id: process.env.GOOGLE_CLIENT_ID,
     google_client_secret :process.env.GOOGLE_CLIENT_SECRET,
     gmail_user: process.env.GMAIL_USER,
-    gmail_password: process.env.GMAIL_PASSWORD
+    gmail_password: process.env.GMAIL_PASSWORD,
+    loggerType: process.env.LOGGER
     
 }

@@ -19,7 +19,8 @@ import viewsRouter from "./routes/view.routes.js"
 import routerSession from "./routes/session.routes.js"
 import routerFakeProducts from "./routes/mockingproducts.routes.js"
 
-
+import { addLogger } from "./utils/logger.js";
+import logRouter from "./routes/logger.routes.js"
 
 const messageManager = new MessageManager();
 
@@ -56,6 +57,9 @@ app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
 app.use('/api/session', routerSession)
 app.use('/mockingproducts', routerFakeProducts)
+
+app.use(addLogger);
+app.use("/api/logger", logRouter);
 
 
 const socketio = app.listen(port, () =>

@@ -8,7 +8,6 @@ export default class ProductManager {
       //   throw new Error(`All the fields are mandatory.`)
       // if (await this.#checkIfCodeExists(product.code))
       //   throw new Error(`The product code already exists.`)
-      console.log(' estamos cargando tu producto');
       let result = await productModel.create(product)
       return {
         success: `The product was successfully added.`,
