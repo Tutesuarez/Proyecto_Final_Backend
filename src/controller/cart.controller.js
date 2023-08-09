@@ -191,14 +191,14 @@ export const preCheckOut = async (req, res) => {
             } else {
                 const { purchaser: email, code: code, amount: amount } = resp2;
                 // const email = resp2.purchaser
-                // const code2 = resp2.code
+                 const code2 = resp2.code
                 console.log(resp);
 
                 try {
                     console.log('ando por aqui');
                     await updateProductsServices(cid, nonStockProduct);
-                    await sendMessage(email,code2,amount2)
-                    return res.render('order',resp3);
+                    await sendMessage(email,code2,amount)
+                    return res.render('order',resp2);
                 } catch (error) {
                     return res.status(500).json({ message: error });
                 }
