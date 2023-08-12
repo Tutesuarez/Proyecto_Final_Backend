@@ -1,6 +1,6 @@
 import { Router } from "express"
 import {getProducts} from '../controller/product.controller.js'
-import {  publicAccess, authorizationRole } from "../middleware/session..middleware.js";
+import {authorizationRole, passportCall, passportCallRedirect } from "../middleware/session..middleware.js";
 import { 
   chatView, 
   errorLoginView, 
@@ -8,28 +8,35 @@ import {
   loginView, 
   newProductView, 
   perfilView, 
-  singUpView 
+  singUpView,
+  resetPasswordView,
+  recoverPassword
 } from "../controller/view.controller.js"
+
 
 
 const router = Router();
 
 
-router.get("/", authorizationRole(["admin", "user"]), getProducts)
+router.get("/", passportCallRedirect("jwt"), authorizationRole(["admin", "user", "premium"]), getProducts)
 
-router.get("/realtimeproducts", authorizationRole(["admin"]), newProductView)
+router.get('/', loginView)
 
-router.get('/',publicAccess,loginView)
+router.get('/login', loginView)
 
-router.get('/register',publicAccess, singUpView)
+router.get("/realtimeproducts", passportCall("jwt"), authorizationRole(["admin", "premium"]), newProductView)
 
-router.get('/login',publicAccess, loginView)
+router.get('/register', singUpView)
 
-router.get('/perfil', authorizationRole(["admin", "user"]), perfilView)
+router.get('/perfil', passportCall("jwt"), authorizationRole(["admin", "user", "premium"]), perfilView)
 
 router.get('/errorlogin', errorLoginView) 
 
 router.get('/errorsingup', errorSingUpView)
+
+router.get("/resetpassword/:idurl", resetPasswordView)
+
+router.get("/recoverpassword", recoverPassword)
 
 //  router.get("/realtimeproducts",privateAccess, async (req, res) => {
 // //   const io = req.app.get("socketio")
@@ -45,11 +52,6 @@ router.get('/errorsingup', errorSingUpView)
 // //   })
 //  })
 
-
-
-
-// rever como implificar ruta
-
-router.get("/chat", authorizationRole(["user"]), chatView)
+router.get("/chat",passportCall("jwt"), authorizationRole(["user", "premium"]), chatView)
 
 export default router;

@@ -1,15 +1,40 @@
-export const publicAccess = (req, res, next) =>{
-    if(req.session.user) return res.redirect('/')
-    next();
-  }
-  
-  // ELIMINAR antes de entregar 
-  // export const privateAccess = (req, res, next) =>{
-  //   if(!req.session.user) return res.redirect('/login')
-  //   next();
-  // }
+import passport from "passport";
 
-  //REVISAR COMO EJECUTAR CORRECTAMENTE CONTROL DE ROLES
+
+  export const passportCall = (strategy) => {
+    return async (req, res, next) => {
+      passport.authenticate(
+        strategy,
+        { session: false },
+        function (error, user, info) {
+          if (error) return next(error);
+          if (!user)
+            return res
+              .status(401)
+              .send({ error: info.messages ? info.messages : info.toString() });
+          req.user = user;
+          next();
+        }
+      )(req, res, next);
+    };
+  };
+  
+  // ! Función para redireccionar si el usuario esta logueado.
+  export const passportCallRedirect = (strategy) => {
+    return async (req, res, next) => {
+      passport.authenticate(
+        strategy,
+        { session: false },
+        function (error, user, info) {
+          if (user) {
+            req.user = user;
+            return res.redirect("/");
+          }
+          next();
+        }
+      )(req, res, next);
+    };
+  };
   export const authorizationRole = (role) => {
     return async (req, res, next) => {
       const user = req.session.user;
@@ -26,4 +51,17 @@ export const publicAccess = (req, res, next) =>{
     };
   };
   
-  
+  // export const authorizationRole = (roles) => {
+  //   return async (req, res, next) => {
+  //     const user = req.user;
+  //     if (!user) {
+  //       req.logger.warning(`WARNING => ${new Date()} - Not logged user try to get access`);
+  //       return res.status(401).send({ error: `Unauthorizad` })
+  //     };
+  //     if (!roles.includes(user.role)){
+  //       req.logger.warning(`WARNING => ${new Date()} - ${ user.email } try to access with no permissions`);
+  //       return res.status(403).send({ error: `No permissions` });
+  //     }
+  //     next();
+  //   };
+  // }

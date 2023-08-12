@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser"
 import session from "express-session"
 import passport from "passport"
 import './config/passport.js'
+import initializePassport from "./config/passport.jwt.js";
 
 import cartRouter from "./routes/cart.routes.js"
 import productsRouter from "./routes/products.routes.js"
@@ -45,6 +46,7 @@ app.use(session({
 }))
 
 //config passport
+initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 

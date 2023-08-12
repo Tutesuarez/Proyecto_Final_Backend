@@ -12,15 +12,15 @@ import errorHandler from '../middleware/errors/index.js'
 
 const router = Router();
 
-router.get('/:pid', authorizationRole(["user", "admin"]), getProductsById)
+router.get('/:pid', authorizationRole(["user", "admin", "premium"]), getProductsById)
 
-router.delete('/:pid', authorizationRole(["admin"]), deleteProduct)
+router.delete('/:pid', authorizationRole(["admin", "premium"]), deleteProduct)
 
-router.put('/:pid', authorizationRole(["admin"]), updateProduct)
+router.put('/:pid', authorizationRole(["admin", "premium"]), updateProduct)
 
-router.post('/', authorizationRole(["admin"]), uploader.array("thumbnails"), addProduct)
+router.post('/', authorizationRole(["admin", "premium"]), uploader.array("thumbnails"), addProduct)
 
-router.get('/', authorizationRole(["user", "admin"]),getProducts)
+router.get('/', authorizationRole(["user", "admin", "premium"]),getProducts)
 
 router.use(errorHandler)
 

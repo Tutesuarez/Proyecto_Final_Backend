@@ -11,3 +11,8 @@ export const findOneByEmail = async(email)=>{
     }
 }
 
+export const changePassword = async({email, newpassword}) => await UserManager.updatePassword({email, newpassword })
+export const recoverPass = async(user) => await UserManager.recoverPassword(user)
+export const roleChanger = async (uid) => await UserManager.changeRole(uid)
+export const urlCheckReset = async (idurl) => await  UserManager.checkResetUrl(idurl)
+export const resetRecoverPass = async (email) => await UserManager.resetRecoverPassword(email)

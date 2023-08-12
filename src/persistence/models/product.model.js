@@ -38,6 +38,10 @@ const productSchema = new Schema({
     type: Boolean, 
     require: true 
   },
+  owner: { 
+    type: Schema.Types.ObjectId, 
+    require: true 
+  }
 })
 
 productSchema.plugin(paginate)

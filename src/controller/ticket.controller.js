@@ -8,8 +8,7 @@ export const codeGenerator=()=> {
     const indice = Math.floor(Math.random() * caracter.length);
     code += caracter[indice];
   }
-
-  return code;
+  return code
 }
 
 

@@ -23,9 +23,21 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    role: { type: String, 
+    cart: {
+        type: Schema.Types.ObjectId,
+        ref: "carts",
+      },
+      role: { type: String, 
         default: "user" 
     },
+    recover_password: {
+      id_url: {type: String},
+      createTime: {type: String}
+    }
 });
 
+userSchema.pre('findOne', function(){
+    this.populate('cart')
+  })
+  
 export const userModel = model(userCollection, userSchema)

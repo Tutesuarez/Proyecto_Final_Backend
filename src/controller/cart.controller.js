@@ -9,6 +9,7 @@ import {
 } from '../services/cart.service.js'
 import { createTicket } from '../services/ticket.service.js'
 import {
+    getProductsById,
     updateProduct as updateProductServices
 } from '../services/product.service.js'
 import { sendMessage } from './message.controller.js'
@@ -26,6 +27,14 @@ export const addCart = async (req, res) => {
 
 export const addProductToCart = async (req, res) => {
     const { cid, pid } = req.params;
+    const { user } = req.user;
+    if(user.role === "premium") { 
+      let resp = await getProductsById(pid);
+      if(resp.owner.toString() === user._id) {
+        return response.status(401).send({error:'You do not have permissions to perform this action'})
+      }
+    }
+
     let resp = await addProductToCartServices(cid, pid);
     resp?.error
         ? res.status(400).send({ ...resp })

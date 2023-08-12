@@ -2,7 +2,8 @@ import { Router } from 'express'
 import passport from 'passport'
 import '../config/passport.js'
 import { jwtValidation } from '../middleware/jwt.middleware.js'
-import { current, login, logout, register, validation } from '../controller/session.controller.js'
+import { current, login, logout, register, validation, resetpassword, recoverpassword, changeRole} from '../controller/session.controller.js'
+import { passportCall } from '../middleware/session..middleware.js'
 
 const routerSession = Router()
 
@@ -10,8 +11,11 @@ const routerSession = Router()
 routerSession.post('/login', login)
 routerSession.get('/logout', logout)
 routerSession.post('/register', register)
-routerSession.post('/current', current)
+routerSession.post("/resetpassword", resetpassword);
+routerSession.post("/recoverpassword", recoverpassword);
+routerSession.post('/current', passportCall("jwt"), current)
 routerSession.get('/validation', jwtValidation, validation)
+routerSession.get("/premium/:uid", changeRole);
 
 
 routerSession.get('/githubSignup'), passport.authenticate('githubSignup', { scope: ['user:email'] }), async (req, res) => { }

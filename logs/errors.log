@@ -3,3 +3,8 @@
 {"cause":"One or more arguments were incomplete or not valid.\n    List of required arguments:\n       *Title: needs to be string, recived: \n       *Description: needs to be string, recived: sdf\n       *Code: needs to be string, recived: \n       *Price: needs to be string, recived: \n       *Stock: needs to be number, recived: \n       *Category: needs to be string, recived: ","code":1,"level":"error","message":"Error Personalizado: TYPE_ERROR - Error trying to create the product."}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}

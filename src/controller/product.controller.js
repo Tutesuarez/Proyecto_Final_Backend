@@ -130,8 +130,17 @@ const updateProduct = async (req, res) => {
     }
 }
 
+
+// Revisar 
 const deleteProduct = async (req, res) => {
-    let id = req.params.pid
+  let id = req.params.pid
+  const { user } = request.user;
+  if(user.role === "premium") { 
+    let res = await getProductsById(pid);
+    if(res.owner.toString() !== user._id) {
+      return response.status(401).send({ error: 'You do not have permissions to perform this action'})
+    }
+  }
     try {
         const product = await deleteProductServices(id)
         res.send({ status: "success", payload: product })

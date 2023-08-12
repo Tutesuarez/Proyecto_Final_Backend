@@ -1,3 +1,4 @@
+import { resetRecoverPass, urlCheckReset } from "../services/session.service.js"
 
 
 export const newProductView = async (req, res) => {
@@ -46,3 +47,48 @@ export const newProductView = async (req, res) => {
          style: "chatStyles" 
     })
   }
+
+  export const resetPasswordView = async (req, res) => {
+    let { idurl } = req.params
+    let result = await urlCheckReset(idurl);
+    if(!result?.email) {
+      res.redirect("/recoverpassword")
+      return
+    }
+    let create = new Date(result.recover_password.createTime);
+    let now = new Date();
+    let minutes = (now.getTime()-create.getTime()) / 1000 / 60;
+    if(minutes > 60) {
+      await resetRecoverPass(result.email)
+      res.redirect("/login")
+      return
+    }
+    res.render('resetpassword', {
+      title: "Reset Password",
+      style: "home",
+      logued: false,
+      email: result.email,
+      idurl: result.recover_password.id_url
+    })
+  }
+  
+  export const recoverPassword = async (req, res) => {
+    res.render('recoverpassword', {
+      title: "Recover Password",
+      style: "home",
+      logued: false,
+    })
+  }
+  
+  export const registerView = async (req, res) => {
+    if (req.user?.email) return res.redirect("/products")
+    res.render('register', {
+      title: "Registro",
+      style: "home",
+      logued: false,
+    })
+  }
+
+  // export const logoutView = async (request, response) => {
+  //   response.clearCookie("tokenBE").redirect("/login");
+  // };

@@ -15,21 +15,21 @@ const router = Router()
 
 
 
-router.post("/", authorizationRole(["user"]), addCart)
+router.post("/", authorizationRole(["user", "premium"]), addCart)
 
-router.get("/:cid", authorizationRole(["user"]), getCart)
+router.get("/:cid", authorizationRole(["user","premium"]), getCart)
 
-router.post("/:cid/products/:pid", authorizationRole(["user"]), addProductToCart)
+router.post("/:cid/products/:pid", authorizationRole(["user", "premium"]), addProductToCart)
 
-router.put("/:cid", authorizationRole(["user"]), updateProduct);
+router.put("/:cid", authorizationRole(["user", "premium"]), updateProduct);
 
-router.put("/:cid/products/:pid", authorizationRole(["user"]), updateProductQuantity);
+router.put("/:cid/products/:pid", authorizationRole(["user", "premium"]), updateProductQuantity);
 
-router.delete("/:cid/products/:pid", authorizationRole(["user"]), productDelete);
+router.delete("/:cid/products/:pid", authorizationRole(["user", "premium"]), productDelete);
 
-router.get('/:cid/empty', authorizationRole(["user"]), emptyCart)
+router.get('/:cid/empty', authorizationRole(["user","premium"]), emptyCart)
 
-router.get('/:cid/purchase', authorizationRole(["user"]), preCheckOut)
+router.get('/:cid/purchase', authorizationRole(["user","premium"]), preCheckOut)
 
 
 export default router
