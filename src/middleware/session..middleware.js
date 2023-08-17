@@ -28,7 +28,7 @@ import passport from "passport";
         function (error, user, info) {
           if (user) {
             req.user = user;
-            return res.redirect("/");
+            return res.redirect("/products");
           }
           next();
         }

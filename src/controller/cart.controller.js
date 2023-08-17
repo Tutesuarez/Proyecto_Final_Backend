@@ -26,12 +26,12 @@ export const addCart = async (req, res) => {
 }
 
 export const addProductToCart = async (req, res) => {
-    const { cid, pid } = req.params;
-    const { user } = req.user;
-    if(user.role === "premium") { 
+    const { cid, pid } = req.params
+    const user = req.session.user
+    if(user.role === 'premium') { 
       let resp = await getProductsById(pid);
-      if(resp.owner.toString() === user._id) {
-        return response.status(401).send({error:'You do not have permissions to perform this action'})
+      if(resp.owner === user._id) {
+        return res.status(401).send({error:'You do not have permissions to perform this action'})
       }
     }
 
@@ -69,14 +69,14 @@ export const updateProduct = async (req, res) => {
         : res.send({ ...resp });
 };
 
-export const updateCart = async (request, response) => {
-    const { cid } = request.params;
-    const { products } = request.body;
-    let res = await CART_SERVICES.updateCart(cid, products);
-    res?.error
-      ? response.status(400).send({ ...res })
-      : response.send({ ...res });
-  };
+// export const updateCart = async (req, res) => {
+//     const { cid } = req.params;
+//     const { products } = req.body;
+//     let resp = await CART_SERVICES.updateCart(cid, products);
+//     resp?.error
+//       ? res.status(400).send({ ...res })
+//       : res.send({ ...res });
+//   };
 
 
 export const updateProductQuantity = async (req, res) => {
@@ -106,63 +106,6 @@ export const emptyCart = async (req, res) => {
 };
 
 
-// export const preCheckOut = async (req, res) => {
-//     const { cid } = req.params;
-//     console.log(cid);
-//     try {
-//         const cart = await getCartServices(cid);
-//     } catch (error) {
-//         return res.status(500).json({ message: error })
-//     }
-
-//     if (cart.products.length > 0) {
-//         let amount = 0;
-//         const nonStockProduct = [];
-//         const purchaser = req.session.user.email;
-
-//         for (const { product, quantity } of cart.products) {
-//             if (product?.stock >= quantity) {
-//                 amount += product.price * quantity;
-//                 product.stock -= quantity;
-//                 console.log(product);
-//                 await updateProductServices(product._id, product);
-//             } else {
-//                 nonStockProduct.push({ product: product._id, quantity });
-//             }
-//         }
-
-//         if (amount > 0) {
-//             const code = codeGenerator();
-//             try {
-//                 const resp = await createTicket({ amount, purchaser, code });
-//             } catch (error) {
-//                 return res.status(500).json({ message: error })
-//             }
-//             const resp2 =JSON.stringify(resp)
-//             const resp3 =JSON.parse(resp2)
-//             const email = resp3.purchaser
-//             const code2 = resp3.code
-//             const amount2 = resp3.amount
-
-//             console.log(resp3);
-//             if (resp?.error) {
-//                 return res.status(400).send({ ...resp });
-//             } else {
-//                 try {
-//                     await updateProductsServices(cid, nonStockProduct);
-//                     await sendMessage(email,code2,amount2)
-//                     return res.render('order', {resp3});
-//                 } catch (error) {
-//                     return res.status(500).json({ message: error });
-//                 }
-//             }
-//         } else {
-//             return res.send({ resp: "No products available." });
-//         }
-//     } else {
-//         return res.send({ resp: "There are no products in the cart." });
-//     }
-// }
 
 export const preCheckOut = async (req, res) => {
     const { cid } = req.params;

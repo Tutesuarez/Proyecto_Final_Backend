@@ -23,11 +23,8 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    cart: {
-        type: Schema.Types.ObjectId,
-        ref: "carts",
-      },
-      role: { type: String, 
+    role: { 
+        type: String, 
         default: "user" 
     },
     recover_password: {

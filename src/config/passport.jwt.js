@@ -5,8 +5,8 @@ import config from "./config.js";
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
-const cookieExtractor = (request) =>
-  request && request.cookies ? request.cookies["tokenBE"] : null;
+const cookieExtractor = (req) =>
+  req && req.cookies ? req.cookies["tokenBE"] : null;
 
 const initializePassport = () => {
   passport.use(

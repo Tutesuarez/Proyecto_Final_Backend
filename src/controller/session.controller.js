@@ -8,49 +8,57 @@ import { changePassword, findOneByEmail, recoverPass, roleChanger } from '../ser
 import { codeGenerator } from './ticket.controller.js'
 import { transporter } from '../utils/nodemailer.js'
 
+
+// const roleRedirects = {
+//     admin: '/perfil',
+//     premium: '/perfil',
+//     user:'/',
+//     default: '/',
+// }
+
 export const login = async (req, res) => {
     const { email, password } = req.body;
-
     if (!email || !password) {
         console.log('Incomplete values')
         return res.json({ redirectURL: '/errorlogin' })
     }
-
     try {
         if (req.body.email === config.admin_email && req.body.password === config.admin_password) {
-            req.session.user = {
-                first_name: 'Coder',
-                last_name: 'House',
-                gender: '',
-                email: req.body.email,
-                password: req.body.password,
-                role: 'admin'
-            }
-            return res.status(200).json({ redirectURL: '/perfil' });
-        }
+                        req.session.user = {
+                            first_name: 'Coder',
+                            last_name: 'House',
+                            gender: '',
+                            email: req.body.email,
+                            password: req.body.password,
+                            role: 'admin'
+                        }
+                        return res.status(200).json({ redirectURL: '/perfil' });
+                    }
         const user = await findOneByEmail(email)
         if (!user) {
-            console.log('User not found')
+            console.log('User not found');
             return res.status(404).json({ redirectURL: '/errorlogin' });
+        }
 
-        };
         if (!isValidPassword(user, password)) {
-            console.log('Invalid credentials')
-            return res.json({ redirectURL: '/errorlogin' })
+            console.log('Invalid credentials');
+            return res.json({ redirectURL: '/errorlogin' });
         }
         delete user.password
         req.session.user = user
-        console.log(user)
+        console.log(user);
+        const token = generateToken(user)
 
-        if (user.role === 'admin') {
-            res.status(200).json({ redirectURL: '/perfil' });
-        } else {
-            res.status(200).json({ redirectURL: '/' });
-        }
-        console.log('Login Success')
-        return user
+        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 24 * 1000, httpOnly: true });
+
+        // const userRole = user.role || 'default';
+        // const redirectURLL = roleRedirects[userRole];
+        res.status(200).json({redirectURL: '/perfil', token });
+
+        console.log('Login Success');
+        return user;
     } catch (error) {
-        res.status(500).send({ status: 'error' })
+        res.status(500).send({ status: 'error' });
     }
 }
 

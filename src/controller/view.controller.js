@@ -5,6 +5,7 @@ export const newProductView = async (req, res) => {
     res.render("realTimeProducts", {
       title: "Product Loader",
       style: "home",
+      logued: true,
     })
   }
 

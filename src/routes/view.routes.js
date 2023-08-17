@@ -18,17 +18,17 @@ import {
 const router = Router();
 
 
-router.get("/", passportCallRedirect("jwt"), authorizationRole(["admin", "user", "premium"]), getProducts)
+router.get("/", authorizationRole(["admin", "user", "premium"]), getProducts)
 
 router.get('/', loginView)
 
 router.get('/login', loginView)
 
-router.get("/realtimeproducts", passportCall("jwt"), authorizationRole(["admin", "premium"]), newProductView)
+router.get("/realtimeproducts", authorizationRole(["admin", "premium"]), newProductView)
 
 router.get('/register', singUpView)
 
-router.get('/perfil', passportCall("jwt"), authorizationRole(["admin", "user", "premium"]), perfilView)
+router.get('/perfil', authorizationRole(["admin", "user", "premium"]), perfilView)
 
 router.get('/errorlogin', errorLoginView) 
 
@@ -52,6 +52,6 @@ router.get("/recoverpassword", recoverPassword)
 // //   })
 //  })
 
-router.get("/chat",passportCall("jwt"), authorizationRole(["user", "premium"]), chatView)
+router.get("/chat", authorizationRole(["user", "premium"]), chatView)
 
 export default router;

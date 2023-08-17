@@ -13,8 +13,8 @@ routerSession.get('/logout', logout)
 routerSession.post('/register', register)
 routerSession.post("/resetpassword", resetpassword);
 routerSession.post("/recoverpassword", recoverpassword);
-routerSession.post('/current', passportCall("jwt"), current)
-routerSession.get('/validation', jwtValidation, validation)
+routerSession.post('/current', current)
+routerSession.get('/validation', passportCall('jwt'), validation)
 routerSession.get("/premium/:uid", changeRole);
 
 

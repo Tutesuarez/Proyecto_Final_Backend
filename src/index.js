@@ -22,12 +22,33 @@ import routerFakeProducts from "./routes/mockingproducts.routes.js"
 
 import { addLogger } from "./utils/logger.js";
 import logRouter from "./routes/logger.routes.js"
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 
 const messageManager = new MessageManager();
 
 const app = express()
 const firma_cookie=config.cookie_secret
 const port = config.port
+
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info:{
+      title: 'FASHION CLOTHES',
+      description: 'FASHION | Clothing Products | E-Commerce'
+    },
+    contact:{
+      name:'Matias',
+      email:'be.creativedesing@gmail.com'
+    }
+  },
+  apis: [`${__dirname}/docs/*/*.yaml`]
+}
+
+const specs = swaggerJsdoc(swaggerOptions)
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 app.use(cors())
 app.use(express.json())
@@ -62,6 +83,7 @@ app.use('/mockingproducts', routerFakeProducts)
 
 app.use(addLogger);
 app.use("/api/logger", logRouter);
+
 
 
 const socketio = app.listen(port, () =>

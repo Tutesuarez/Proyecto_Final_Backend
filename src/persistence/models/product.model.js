@@ -39,7 +39,8 @@ const productSchema = new Schema({
     require: true 
   },
   owner: { 
-    type: Schema.Types.ObjectId, 
+    type: Schema.Types.ObjectId,
+    ref:"user",
     require: true 
   }
 })

@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { authorizationRole } from "../middleware/session..middleware.js";
+import { authorizationRole, passportCall } from "../middleware/session..middleware.js";
 import {
   addCart, 
   getCart, 
@@ -17,7 +17,7 @@ const router = Router()
 
 router.post("/", authorizationRole(["user", "premium"]), addCart)
 
-router.get("/:cid", authorizationRole(["user","premium"]), getCart)
+router.get("/:cid",passportCall("jwt"), authorizationRole(["user","premium"]), getCart)
 
 router.post("/:cid/products/:pid", authorizationRole(["user", "premium"]), addProductToCart)
 

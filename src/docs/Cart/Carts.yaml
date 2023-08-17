@@ -1,0 +1,262 @@
+paths:
+  /api/carts/:
+    post:
+      summary: Create a new cart.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: The cart was created correctly.
+        "401":
+          description: Unauthorized user.
+        "500":
+          description: Could not create the cart.
+
+  /api/carts/{cid}:
+    get:
+      summary: Get a cart with the products.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id of the cart that you want to consult.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: The cart was obtained successfully.
+          content:
+            aplications/json:
+              schema:
+                type: Array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        "401":
+            description: Unauthorized user.  
+        "500":
+          description: Could not get cart.
+          
+    put:
+      summary: The existing products in the cart are replaced by those sent in the request body.
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id of the cart that you want to modify.
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/uploadCart'
+      responses: 
+        "200":
+          description: The cart was modified correctly.
+        "401":
+          description: Unauthorized user.
+        "500":
+          description: There was an error modifying the cart.
+
+    delete:
+      summary: The selected cart is deleted.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id of the cart you want to delete.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: The cart was deleted successfully.
+        "401":
+          description: Unauthorized user.
+        "500":
+          description: Could not delete cart.
+
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Add a product to the cart.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart ID
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: Product Id
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: The product was added to the cart successfully.
+        "401":
+          description: Unauthorized user.
+        "403":
+          description: You do not have permissions to perform the action.
+        "500":
+          description: Could not add product to cart.
+
+    put:
+      summary: Update a product from the cart.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart Id.
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: Product Id.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: The product in the cart was updated successfully.
+        "401":
+          description: Unauthorized user.
+        "500":
+          description: Could not update cart product.
+
+    delete:
+      summary: Remove a product from the cart.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id cart.
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: Product Id.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: The product from the cart was successfully removed.
+        "401":
+          description: Unauthorized user.
+        "500":
+          description: Could not remove product from cart.
+
+  /api/carts/{cid}/purchase:
+    get:
+      summary: A purchase ticket is generated and received.
+      tags:
+      - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart Id.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: The purchase was processed successfully.
+          content:
+            aplications/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        "401":
+          description: Unauthorized user.
+        "500":
+          description: Error at checkout.
+
+components:
+  schemas:
+    Cart:
+      type: Object
+      properties:
+        _id:
+          type: String
+          description: Id autogenerated by Mongo.
+        products:
+          type: Array
+          items:
+            type: Object
+            properties:
+              pid:
+                type: String
+                description: ObjectId of the product.
+              quantity:
+                type: Number
+                description: Product quantity
+        description: List of products in the cart
+      example:
+        _id: ObjectId("asETDFG1234jnuhg8fd.214asFSDE3")
+        products:
+          - pid: ObjectId("64010a6571f4e3378dbb000")
+            quantity: 3
+          - pid: ObjectId("645ad03732d3d6315ef6968")
+            quantity: 5
+          - pid: ObjectId("645ad04032d3d96476ef6974")
+            quantity: 1
+
+    Ticket:
+      type: Object
+      properties:
+        _id:
+          type: String
+          description: Id autogenerated by Mongo.
+        code:
+          type: String
+          description: Purchase code.
+        purchase_datetime:
+          type: Date
+          description: Purchase date.
+        amount:
+          type: Number
+          description: Total price .
+        purchaser:
+          type: String
+          description: Costumer email.
+      example:
+        _id: ObjectId("6474914326a157d7395857d5")
+        code: "XVW42OP9"
+        purchase_datetime: 2023-07-03T23:52:06.370+00:00
+        amount: 520
+        purchaser: costumer@gmail.com
+
+  requestBodies:
+    uploadCart:
+      type: Array
+      items:
+        type: object
+        properties:
+          pid:
+            type: String
+            description: Product Id.
+          quantity:
+            type: Number
+            description: Product quantity.
+      example:
+        - pid: ObjectId("64010a6571f4e310587dbb00")
+          quantity: 5
+        - pid: ObjectId("645ad03732d3d81586ef6968")
+          quantity: 1
+        - pid: ObjectId("645ad04032d3d81586ef6974")
+          quantity: 1

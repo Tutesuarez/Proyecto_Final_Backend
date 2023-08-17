@@ -55,11 +55,13 @@ const getProducts = async (req, res) => {
 
 
 const addProduct = async (req, res) => {
+  const {_id} = req.session.user
     const io = req.app.get("socketio")
     const { files, body } = req
     let product = { ...body, status: true }
     let thumbnails = files.map((file) => file.originalname)
     product.thumbnails = thumbnails
+    product.owner =_id
     try {
     if (!product.title || !product.description || !product.price || !product.code || !product.status || !product.stock || !product.category) {
         throw CustomError.createError({
