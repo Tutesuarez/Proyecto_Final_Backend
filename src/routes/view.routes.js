@@ -18,17 +18,18 @@ import {
 const router = Router();
 
 
-router.get("/", authorizationRole(["admin", "user", "premium"]), getProducts)
+// router.get("/", authorizationRole(["admin", "user", "premium"]), getProducts)
+router.get("/products", passportCall("jwt"), authorizationRole(["admin", "user", "premium"]), getProducts)
 
-router.get('/', loginView)
+router.get('/', passportCallRedirect("jwt"), loginView)
 
-router.get('/login', loginView)
+router.get('/login', passportCallRedirect("jwt"), loginView)
 
 router.get("/realtimeproducts", authorizationRole(["admin", "premium"]), newProductView)
 
-router.get('/register', singUpView)
+router.get('/register',passportCallRedirect("jwt"), singUpView)
 
-router.get('/perfil', authorizationRole(["admin", "user", "premium"]), perfilView)
+router.get('/perfil', passportCall("jwt"), authorizationRole(["admin", "user", "premium"]), perfilView)
 
 router.get('/errorlogin', errorLoginView) 
 

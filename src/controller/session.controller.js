@@ -44,6 +44,8 @@ export const login = async (req, res) => {
             console.log('Invalid credentials');
             return res.json({ redirectURL: '/errorlogin' });
         }
+        req.logger.info(`INFO => ${new Date()} - ${user.email} had log`);
+        
         delete user.password
         req.session.user = user
         console.log(user);
