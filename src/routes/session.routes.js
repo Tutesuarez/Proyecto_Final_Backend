@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import passport from 'passport'
 import '../config/passport.js'
-import { jwtValidation } from '../middleware/jwt.middleware.js'
 import { current, login, logout, register, validation, resetpassword, recoverpassword, changeRole} from '../controller/session.controller.js'
 import { passportCall } from '../middleware/session..middleware.js'
 

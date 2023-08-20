@@ -5,10 +5,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
 import { createHash, isValidPassword } from '../utils/bcrypt.js'
 import { userModel } from '../persistence/models/user.model.js'
 import config from './config.js'
-//BORRAR
-import { ExtractJwt,
-         Strategy as jwtStrategy
-        } from 'passport-jwt'
+
 
 const LocalStrategy = local.Strategy // defino estragia local
 
@@ -124,13 +121,3 @@ passport.use(new GoogleStrategy({
     }
 ));
 
-//BORRAR
-
-
-// JWT- STRaTEGY
-// passport.use('jwtStrategy', new jwtStrategy({
-//     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-//     secretOrkey: config.secret_jwt
-// }, async(jwt_payload, done)=>{
-//     done(null,jwt_payload.user)
-// }))

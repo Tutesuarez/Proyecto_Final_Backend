@@ -18,8 +18,8 @@ import {
 const router = Router();
 
 
-// router.get("/", authorizationRole(["admin", "user", "premium"]), getProducts)
-router.get("/products", passportCall("jwt"), authorizationRole(["admin", "user", "premium"]), getProducts)
+//s router.get("/products", authorizationRole(["admin", "user", "premium"]), getProducts)
+router.get("/products", authorizationRole(["admin", "user", "premium"]), getProducts)
 
 router.get('/', passportCallRedirect("jwt"), loginView)
 

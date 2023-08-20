@@ -51,17 +51,3 @@ import passport from "passport";
     };
   };
   
-  // export const authorizationRole = (roles) => {
-  //   return async (req, res, next) => {
-  //     const user = req.user;
-  //     if (!user) {
-  //       req.logger.warning(`WARNING => ${new Date()} - Not logged user try to get access`);
-  //       return res.status(401).send({ error: `Unauthorizad` })
-  //     };
-  //     if (!roles.includes(user.role)){
-  //       req.logger.warning(`WARNING => ${new Date()} - ${ user.email } try to access with no permissions`);
-  //       return res.status(403).send({ error: `No permissions` });
-  //     }
-  //     next();
-  //   };
-  // }

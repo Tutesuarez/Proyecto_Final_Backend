@@ -33,8 +33,5 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.pre('findOne', function(){
-    this.populate('cart')
-  })
   
 export const userModel = model(userCollection, userSchema)
