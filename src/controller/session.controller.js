@@ -8,8 +8,9 @@ import { changePassword, findOneByEmail, recoverPass, roleChanger } from '../ser
 import { codeGenerator } from './ticket.controller.js'
 import { transporter } from '../utils/nodemailer.js'
 import { logger } from '../utils/logger.js';
-import { createCart } from './cart.controller.js'
+// import { createCart } from './cart.controller.js'
 import { createOne } from '../services/user.service.js'
+import { addCart } from '../services/cart.service.js'
 
 
 // const roleRedirects = {
@@ -21,7 +22,6 @@ import { createOne } from '../services/user.service.js'
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
     if (!email || !password) {
         console.log('Incomplete values')
         return res.json({ redirectURL: '/errorlogin' })
@@ -73,7 +73,7 @@ export const register = async (req, res) => {
         const exists = await findOneByEmail(email)
         if (exists) return res.status(400).send({ status: 'error', error: 'user already exists' })
 
-        let resp = await createCart()
+        let resp = await addCart()
         const user = {
             first_name,
             last_name,
@@ -84,24 +84,10 @@ export const register = async (req, res) => {
             role: "user",
         }
 
-        //await userModel.create(user)
-        let result = await createOne(user)
+        await userModel.create(user)
+        // await createOne(user)
 
-        let { password: pass, ...userAttributes } = newUser;
-
-        const token = generateToken(userAttributes);
-        res
-          .cookie("tokenBE", token, {
-            maxAge: 60 * 60 * 100,
-            httpOnly: true,
-          })
-          .send({
-            success: 'Registered correctly.',
-            payload: result,
-            redirect: '/login'
-          })
-
-        //res.redirect('/login')
+       res.redirect('/login')
     } catch (error) {
         console.log(error)
         res.redirect('/errorsingup')

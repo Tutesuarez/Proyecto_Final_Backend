@@ -112,6 +112,10 @@ passport.use(new GoogleStrategy({
                 email,
                 gender: gender || '',
                 password: ' ',
+                cart: {
+                    type: Schema.Types.ObjectId,
+                    ref: "carts",
+                  },
             }
             const newUserDB = await userModel.create(user)
             done(null, newUserDB)

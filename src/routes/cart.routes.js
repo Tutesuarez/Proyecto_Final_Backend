@@ -17,7 +17,7 @@ const router = Router()
 
 router.post("/", authorizationRole(["user", "premium"]), addCart)
 
-router.get("/:cid",passportCall("jwt"), authorizationRole(["user","premium"]), getCart)
+router.get("/:cid?",passportCall("jwt"), authorizationRole(["user","premium"]), getCart)
 
 router.post("/:cid/products/:pid", authorizationRole(["user", "premium"]), addProductToCart)
 

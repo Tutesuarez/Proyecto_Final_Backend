@@ -16,28 +16,25 @@ import { sendMessage } from './message.controller.js'
 import { codeGenerator } from "../controller/ticket.controller.js"
 // agregar logger
 
-export const addCart = async (req, res) => {
-    let resp = await addCartServices();
-    resp?.error
-        ? res.status(404).send({ status: res.error })
-        : res.send({
-            status: 'success',
-            message:'The cart was created succesfully.',
-            payload: resp,
-        });
-}
+// export const addCart = async (req, res) => {
+//     let resp = await addCartServices();
+//     resp?.error
+//         ? res.status(404).send({ status: res.error })
+//         : res.send({
+//             status: 'success',
+//             message:'The cart was created succesfully.',
+//             payload: resp,
+//         });
+// }
 ///  NUEVA FUNCION DE CREAR CARRITO
-export const createCart = async (req, res) => {
+export const addCart = async (req, res) => {
     //let resp = await CART_SERVICES.createCart(); cambiar esto
     let resp = await addCartServices(); 
     if (resp?.error) {
       req.logger.error(`ERROR => ${new Date()} - ${ resp.error }`);
       res.status(404).send({ status: resp.error });
     } else {
-      res.send({
-        status: 'success',
-        payload: resp,
-      });
+      res.send({ status: 'success', payload: resp});
     }
   }
 
@@ -59,13 +56,15 @@ export const addProductToCart = async (req, res) => {
 
 
 export const getCart = async (req, res) => {
-    const { cid } = req.params
+    const { cid } = req?.user?.cart || req?.params;
     let resp = await getCartServices(cid);
     let resp2 = resp.products
     let prod = JSON.stringify(resp2)
     resp?.error
-        ? res.status(404).send(res)
-        : res.render('cart', { products: JSON.parse(prod), cid: cid, title: "FASHION | CART", style: "home" })
+        ? res.status(404).send(resp)
+        : res.send({ status: `success`, payload: resp })
+        
+        //res.render('cart', { products: JSON.parse(prod), cid: cid, title: "FASHION | CART", style: "home" })
 }
 
 export const deleteCart = async (req, res) => {
@@ -151,6 +150,7 @@ export const preCheckOut = async (req, res) => {
 
         if (amount > 0) {
             const code = codeGenerator();
+            request.logger.info(`INFO => ${new Date()} - New purchase: ${ amount, purchaser, code }`);
             const resp = JSON.stringify(await createTicket({ amount, purchaser, code }))
             const resp2 = JSON.parse(resp)
             console.log(resp2);

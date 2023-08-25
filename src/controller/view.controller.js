@@ -2,6 +2,7 @@ import { resetRecoverPass, urlCheckReset } from "../services/session.service.js"
 import CustomError from "../middleware/errors/CustomError.js"
 import { logger } from '../utils/logger.js'
 import{ getProducts as getProductsServices} from '../services/product.service.js'
+import { getCart } from "../services/cart.service.js"
 
 
 export const newProductView = async (req, res) => {
@@ -38,6 +39,7 @@ export const newProductView = async (req, res) => {
             prevPage,
             user: { email: req.session.email, rol: req.session.rol, name: req.session.name },
             logued: true,
+            cart: user.cart
         })
     } catch (error) {
         if (CustomError.createError(error)) {
@@ -135,6 +137,19 @@ export const newProductView = async (req, res) => {
     })
   }
 
-  // export const logoutView = async (request, response) => {
-  //   response.clearCookie("tokenBE").redirect("/login");
-  // };
+  export const cartView = async (req, res) => {
+    const {user} = req.user;
+    const cid = user.cart;
+    let { products, _id } = await getCart(cid);
+    let prod = JSON.stringify(products)
+
+    res.render("cart", {
+      title: "FASHION | CART",
+      style: "home",
+      products: JSON.parse(prod),
+      cid:_id,
+      display: products.length > 0 ? true : false,
+      logued: true,
+    });
+  };
+  

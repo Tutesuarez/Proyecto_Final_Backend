@@ -6,6 +6,7 @@ class UserDTO {
       email: user.email,
       gender: user.gender,
       password: user.password,
+      cart: user.cart,
       role: user.role
     };
     return userParams;

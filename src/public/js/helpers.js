@@ -1,8 +1,10 @@
 const addToCart = async (e) => {
   if (e.target.classList.contains("addtocart")) {
     let pid = e.target.dataset.id;
+    const cid = document.querySelector('.cart-id')
+    console.log(cid);
     let res = await fetch(
-      `api/carts/6474914326a157d7395857d5/products/${pid}`,
+      `api/carts/${cid.textContent}/products/${pid}`,
       { method: "POST" }
     );
     let message = await res.json();
