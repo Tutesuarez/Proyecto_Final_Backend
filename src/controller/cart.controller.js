@@ -14,16 +14,32 @@ import {
 } from '../services/product.service.js'
 import { sendMessage } from './message.controller.js'
 import { codeGenerator } from "../controller/ticket.controller.js"
+// agregar logger
 
 export const addCart = async (req, res) => {
     let resp = await addCartServices();
     resp?.error
         ? res.status(404).send({ status: res.error })
         : res.send({
-            status: `The cart was created succesfully.`,
+            status: 'success',
+            message:'The cart was created succesfully.',
             payload: resp,
         });
 }
+///  NUEVA FUNCION DE CREAR CARRITO
+export const createCart = async (req, res) => {
+    //let resp = await CART_SERVICES.createCart(); cambiar esto
+    let resp = await addCartServices(); 
+    if (resp?.error) {
+      req.logger.error(`ERROR => ${new Date()} - ${ resp.error }`);
+      res.status(404).send({ status: resp.error });
+    } else {
+      res.send({
+        status: 'success',
+        payload: resp,
+      });
+    }
+  }
 
 export const addProductToCart = async (req, res) => {
     const { cid, pid } = req.params

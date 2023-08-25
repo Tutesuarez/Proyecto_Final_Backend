@@ -20,26 +20,9 @@ const getProducts = async (req, res) => {
         const sort = req.query.sort
 
         console.log(keyword);
-        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(keyword, limit, page, sort)
+        const {docs} = await getProductsServices(keyword, limit, page, sort)
 
-        const products = JSON.stringify(docs)
-        const user = req.session.user
-
-
-        res.send({ products:docs}).render('index', {
-            name: req.session.user.first_name,
-            role: req.session.user.role,
-            products: JSON.parse(products),
-            title: "FASHION PRODUCTS",
-            style: "home",
-            hasPrevPage,
-            hasNextPage,
-            nextPage,
-            prevPage,
-            user: { email: req.session.email, rol: req.session.rol, name: req.session.name },
-            logued: true,
-        })
-        //.send({ status:'success', products: docs})
+        res.send({ status:'success', products: docs})
     } catch (error) {
         if (CustomError.createError(error)) {
             // Registra el error personalizado con información adicional

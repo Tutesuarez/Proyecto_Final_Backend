@@ -1,4 +1,7 @@
 import { resetRecoverPass, urlCheckReset } from "../services/session.service.js"
+import CustomError from "../middleware/errors/CustomError.js"
+import { logger } from '../utils/logger.js'
+import{ getProducts as getProductsServices} from '../services/product.service.js'
 
 
 export const newProductView = async (req, res) => {
@@ -8,6 +11,48 @@ export const newProductView = async (req, res) => {
       logued: true,
     })
   }
+
+  export const productViewer = async (req, res) => {
+    try {
+        let keyword = req.query.keyword
+        let limit = parseInt(req.query.limit, 10) || 10
+        let page = parseInt(req.query.page, 10) || 1
+        const sort = req.query.sort
+
+        console.log(keyword);
+        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await getProductsServices(keyword, limit, page, sort)
+
+        const products = JSON.stringify(docs)
+        const user = req.session.user
+
+
+        res.render('index', {
+            name: req.session.user.first_name,
+            role: req.session.user.role,
+            products: JSON.parse(products),
+            title: "FASHION PRODUCTS",
+            style: "home",
+            hasPrevPage,
+            hasNextPage,
+            nextPage,
+            prevPage,
+            user: { email: req.session.email, rol: req.session.rol, name: req.session.name },
+            logued: true,
+        })
+    } catch (error) {
+        if (CustomError.createError(error)) {
+            // Registra el error personalizado con información adicional
+            logger.error(`Error Personalizado: ${error.name} - ${error.message}`, {
+              cause: error.cause,
+              code: error.code,
+            });
+          } else {
+            // Registra otros errores normalmente
+            logger.error(error);
+          }
+    }
+}
+      
 
   export const loginView = async(req, res)=>{
     res.render("login",{ 

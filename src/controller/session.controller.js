@@ -8,6 +8,8 @@ import { changePassword, findOneByEmail, recoverPass, roleChanger } from '../ser
 import { codeGenerator } from './ticket.controller.js'
 import { transporter } from '../utils/nodemailer.js'
 import { logger } from '../utils/logger.js';
+import { createCart } from './cart.controller.js'
+import { createOne } from '../services/user.service.js'
 
 
 // const roleRedirects = {
@@ -19,6 +21,7 @@ import { logger } from '../utils/logger.js';
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
     if (!email || !password) {
         console.log('Incomplete values')
         return res.json({ redirectURL: '/errorlogin' })
@@ -39,19 +42,19 @@ export const login = async (req, res) => {
         console.log(user);
         if (!user) {
             console.log('User not found');
-            return res.status(404).json({ redirectURL: '/errorlogin' });
+           return res.status(401).send({status: 'error', error: 'User not found',redirectURL:'/errorlogin'})
         }
 
         if (!isValidPassword(user, password)) {
             console.log('Invalid credentials');
-            return res.json({ redirectURL: '/errorlogin' });
+           return  res.status(401).send({status: 'error', error: 'User or Password are wrong', redirectURL:'/errorlogin' })
         }
         logger.info(`INFO => ${new Date()} - ${user.email} had log`);
         
         delete user.password
         req.session.user = user
         const token = generateToken(user)
-        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).redirectURL('/perfil').send({status: 'success'});
+        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).send({status: 'success', redirectURL:'/perfil'})
         // const userRole = user.role || 'default';
         // const redirectURLL = roleRedirects[userRole];
         return user;
@@ -70,19 +73,35 @@ export const register = async (req, res) => {
         const exists = await findOneByEmail(email)
         if (exists) return res.status(400).send({ status: 'error', error: 'user already exists' })
 
+        let resp = await createCart()
         const user = {
             first_name,
             last_name,
             email,
             gender,
             password: createHash(password),
-            cart: { _id: res._id },
+            cart: { _id: resp._id },
             role: "user",
         }
 
-        await userModel.create(user)
+        //await userModel.create(user)
+        let result = await createOne(user)
 
-        res.redirect('/login')
+        let { password: pass, ...userAttributes } = newUser;
+
+        const token = generateToken(userAttributes);
+        res
+          .cookie("tokenBE", token, {
+            maxAge: 60 * 60 * 100,
+            httpOnly: true,
+          })
+          .send({
+            success: 'Registered correctly.',
+            payload: result,
+            redirect: '/login'
+          })
+
+        //res.redirect('/login')
     } catch (error) {
         console.log(error)
         res.redirect('/errorsingup')

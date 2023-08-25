@@ -37,9 +37,9 @@ describe('Testing Product Router', () => {
 
         expect(statusCode).to.be.eql(200)
         expect(typeof body, "object").to.be.ok
-        //expect(body.status).to.be.eql('success')
+        expect(body.status).to.be.eql('success')
         expect(Array.isArray(body.products)).to.be.ok
-        //expect(body.products.docs).to.have.length(10)
+        expect(body.products).to.have.length(10)
         
     })
     it('Obtener un producto por su ObjectId',async () => {

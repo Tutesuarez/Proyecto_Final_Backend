@@ -10,16 +10,16 @@ import {
   perfilView, 
   singUpView,
   resetPasswordView,
-  recoverPassword
+  recoverPassword,
+  productViewer
 } from "../controller/view.controller.js"
 
 
 
 const router = Router();
 
-
-//s router.get("/products", authorizationRole(["admin", "user", "premium"]), getProducts)
-router.get("/products", authorizationRole(["admin", "user", "premium"]), getProducts)
+router.get("/products", authorizationRole(["admin", "user", "premium"]), productViewer)
+// router.get("/products", authorizationRole(["admin", "user", "premium"]), getProducts)
 
 router.get('/', passportCallRedirect("jwt"), loginView)
 

@@ -18,7 +18,8 @@ describe('Testing User/Session Router',() => {
             email: 'suarezmatiasjose@gmail.com',
             password: '12345'
         }
-        const { statusCode, body, headers } = await requester.post('api/session/login').send(credentialsMock)
+
+        const {statusCode, body, headers } = await requester.post('api/session/login').send(credentialsMock)
         
         expect(statusCode).to.be.eql(200)
         expect(typeof body, "object").to.be.ok
