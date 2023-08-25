@@ -36,7 +36,10 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "chai": "^4.3.8",
     "express-handlebars": "^7.0.7",
-    "nodemon": "^3.0.1"
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   }
 }

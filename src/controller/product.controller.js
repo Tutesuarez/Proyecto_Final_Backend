@@ -26,7 +26,7 @@ const getProducts = async (req, res) => {
         const user = req.session.user
 
 
-        res.render('index', {
+        res.send({ products:docs}).render('index', {
             name: req.session.user.first_name,
             role: req.session.user.role,
             products: JSON.parse(products),
@@ -39,6 +39,7 @@ const getProducts = async (req, res) => {
             user: { email: req.session.email, rol: req.session.rol, name: req.session.name },
             logued: true,
         })
+        //.send({ status:'success', products: docs})
     } catch (error) {
         if (CustomError.createError(error)) {
             // Registra el error personalizado con información adicional
@@ -95,7 +96,7 @@ const getProductsById = async (req, res) => {
     let id = req.params.pid
     try {
         const result = await getProductsByIdServices(id)
-        res.send({ result: 'success', payload: result })
+        res.send({ status: `success`, product: result })
     } catch (error) {
         if (CustomError.createError(error)) {
             // Registra el error personalizado con información adicional

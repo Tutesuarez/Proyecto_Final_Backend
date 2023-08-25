@@ -51,7 +51,7 @@ export const login = async (req, res) => {
         delete user.password
         req.session.user = user
         const token = generateToken(user)
-        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).redirectURL('/perfil');
+        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).redirectURL('/perfil').send({status: 'success'});
         // const userRole = user.role || 'default';
         // const redirectURLL = roleRedirects[userRole];
         return user;
