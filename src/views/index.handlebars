@@ -8,8 +8,8 @@
 
   <div>
     <h1>Products</h1>
-    {{!-- <form action="/products" method="get" class="form_search">
-      <select name="query" id="query" class="form_select">
+    <form action="/products" method="get" class="form_search">
+      <select name="keyword" id="keyword" class="form_select">
         <option value="">Select a Category</option>
         <option value="man">Men</option>
         <option value="woman">Woman</option>
@@ -21,7 +21,7 @@
         <option value="desc">Descendant</option>
       </select>
       <button class="btn-primary" type="submit">Search</button>
-    </form> --}}
+    </form>
   </div>
 
   {{#if products}}
@@ -42,15 +42,15 @@
   </div>
   <article class="pagination">
     {{#if pag.prevLink}}
-    <button href="{{pag.prevLink}}" class="btn-primary prev_button">Prev</button>
+    <a href="{{pag.prevLink}}" class="btn-primary prev_button">Prev</a>
     {{else}}
-    <button class="btn-primary prev_button disabled">Prev</button>
+    <a class="btn-primary prev_button disabled">Prev</a>
     {{/if}}
     <span class="actual_page">{{pag.page}}</span>
     {{#if pag.nextLink}}
-    <button href="{{pag.nextLink}}" class="">Next</button>
+    <a href="{{pag.nextLink}}" class="">Next</a>
     {{else}}
-    <button class="btn-primary next_button disabled">Next</button>
+    <a class="btn-primary next_button disabled">Next</a>
     {{/if}}
   </article>
 </section>
@@ -62,7 +62,7 @@
 <script src="/js/index.js"></script>
 
 <script>
-  const category = '{{query}}'
+  const category = '{{keyword}}'
   const price = '{{sort}}'
   function selectedInput(key, filter) {
     const elementList = document.getElementById(key);
@@ -71,6 +71,6 @@
       if (option.value == filter) option.setAttribute('selected', true);
     });
   }
-  selectedInput('query', category)
+  selectedInput('keyword', category)
   selectedInput('sort', price)
 </script>

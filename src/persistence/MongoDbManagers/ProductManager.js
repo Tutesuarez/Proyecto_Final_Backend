@@ -19,7 +19,7 @@ export default class ProductManager {
   }
 
   async getProducts(key, limit, page, sort) {
-
+  try {
     if (sort) {
       let sortOption = {};
       if (sort === "asc") {
@@ -36,6 +36,9 @@ export default class ProductManager {
     } else {
       const products = await productModel.paginate({ category: key, stock: { $ne: 0 } }, { limit, page, sort }) // Busca elementos que solo se encuentre con stock
       return products
+    }
+  } catch (error) {
+      return { error: error.message };
     }
 
   }

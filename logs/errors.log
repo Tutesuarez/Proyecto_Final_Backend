@@ -166,3 +166,14 @@
 {"level":"error","message":"Error Personalizado: ReferenceError - query is not defined"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: SyntaxError - Unexpected token u in JSON at position 0"}
+{"level":"error","message":"Error Personalizado: SyntaxError - Unexpected token u in JSON at position 0"}
+{"level":"error","message":"Error Personalizado: SyntaxError - Unexpected token u in JSON at position 0"}
+{"level":"error","message":"Error Personalizado: SyntaxError - Unexpected token u in JSON at position 0"}
+{"level":"error","message":"Error Personalizado: SyntaxError - Unexpected token u in JSON at position 0"}
+{"level":"error","message":"Error Personalizado: SyntaxError - Unexpected token u in JSON at position 0"}
+{"level":"error","message":"Error Personalizado: ReferenceError - query is not defined"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot create property 'prevLink' on number '1'"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot create property 'prevLink' on number 'NaN'"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot create property 'prevLink' on number 'NaN'"}
+{"level":"error","message":"Error Personalizado: ReferenceError - query is not defined"}
