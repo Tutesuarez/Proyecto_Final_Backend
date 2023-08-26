@@ -15,7 +15,7 @@ describe('Testing User/Session Router',() => {
     
     it('Obtener un usuario por su email', async ()=>{
         let credentialsMock = {
-            email: 'suarezmatiasjose@gmail.com',
+            email: 'tute@gmail.com',
             password: '12345'
         }
 

@@ -162,3 +162,7 @@
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: ReferenceError - urlParams is not defined"}
+{"level":"error","message":"Error Personalizado: ReferenceError - query is not defined"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
