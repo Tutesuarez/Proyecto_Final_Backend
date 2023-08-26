@@ -116,8 +116,6 @@ const updateProduct = async (req, res) => {
     }
 }
 
-
-// Revisar 
 const deleteProduct = async (req, res) => {
   let id = req.params.pid
   const { user } = request.user;

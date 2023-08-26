@@ -19,12 +19,12 @@ import {
 
 const router = Router();
 
-router.get("/products", authorizationRole(["admin", "user", "premium"]), productViewer)
-// router.get("/products", authorizationRole(["admin", "user", "premium"]), getProducts)
 
 router.get('/', passportCallRedirect("jwt"), loginView)
 
 router.get('/login', passportCallRedirect("jwt"), loginView)
+
+router.get("/products", authorizationRole(["admin", "user", "premium"]), productViewer)
 
 router.get("/realtimeproducts", authorizationRole(["admin", "premium"]), newProductView)
 
@@ -42,6 +42,8 @@ router.get("/resetpassword/:idurl", resetPasswordView)
 
 router.get("/recoverpassword", recoverPassword)
 
+router.get("/chat",passportCall("jwt"), authorizationRole(["user", "premium"]), chatView)
+
 //  router.get("/realtimeproducts",privateAccess, async (req, res) => {
 // //   const io = req.app.get("socketio")
 // //   const products = await productManager.getProducts();
@@ -55,7 +57,5 @@ router.get("/recoverpassword", recoverPassword)
 // //     socket.emit("products", products)
 // //   })
 //  })
-
-router.get("/chat", authorizationRole(["user", "premium"]), chatView)
 
 export default router;

@@ -1,11 +1,9 @@
 <section class="products">
-
   <div style="color: #333; text-align: center;">
     <h2>Bienvenido: {{name}}</h2>
     <h3>Rol: {{role}}</h3>
     <p class="cart-id" hidden>{{cart._id}}</p>
   </div>
-
   <div>
     <h1>Products</h1>
     <form action="/products" method="get" class="form_search">
@@ -23,7 +21,6 @@
       <button class="btn-primary" type="submit">Search</button>
     </form>
   </div>
-
   {{#if products}}
   <div class="products_list">
     {{#each products}}
@@ -55,7 +52,6 @@
   </article>
 </section>
 {{/if}}
-
 </section>
 
 <script src="/js/helpers.js"></script>

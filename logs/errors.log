@@ -177,3 +177,4 @@
 {"level":"error","message":"Error Personalizado: TypeError - Cannot create property 'prevLink' on number 'NaN'"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot create property 'prevLink' on number 'NaN'"}
 {"level":"error","message":"Error Personalizado: ReferenceError - query is not defined"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
