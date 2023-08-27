@@ -14,6 +14,8 @@ import {
 } from '../services/product.service.js'
 import { sendMessage } from './message.controller.js'
 import { codeGenerator } from "../controller/ticket.controller.js"
+import { logger } from '../utils/logger.js';
+
 
 export const addCart = async (req, res) => {
     let resp = await addCartServices(); 
@@ -122,7 +124,6 @@ export const preCheckOut = async (req, res) => {
             if (product?.stock >= quantity) {
                 amount += product.price * quantity;
                 product.stock -= quantity;
-                console.log(product);
                 await updateProductServices(product._id, product);
             } else {
                 nonStockProduct.push({ product: product._id, quantity });
@@ -130,34 +131,31 @@ export const preCheckOut = async (req, res) => {
         });
 
         await Promise.all(updateProductPromises);
+        console.log('after promises');
 
         if (amount > 0) {
             const code = codeGenerator();
-            request.logger.info(`INFO => ${new Date()} - New purchase: ${ amount, purchaser, code }`);
+            logger.info(`INFO => ${new Date()} - New purchase: ${amount+purchaser+code}`);
             const resp = JSON.stringify(await createTicket({ amount, purchaser, code }))
             const resp2 = JSON.parse(resp)
-            console.log(resp2);
+
             if (resp2?.error) {
                 return res.status(400).send({ ...resp2 });
             } else {
-                const { purchaser: email, code: code, amount: amount } = resp2;
-                // const email = resp2.purchaser
-                const code2 = resp2.code
-                console.log(resp);
+                const { purchaser: email, code,amount } = resp2
 
                 try {
-                    console.log('ando por aqui');
                     await updateProductsServices(cid, nonStockProduct);
-                    await sendMessage(email,code2,amount)
-                    return res.render('order',resp2);
+                    await sendMessage(email,code,amount)
+                    return res.render('order', resp2)
                 } catch (error) {
-                    return res.status(500).json({ message: error });
+                    return res.status(500).json({ message: error.message })
                 }
             }
         } else {
             return res.send({ resp: "No products available." });
         }
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: error.message })
     }
 }
