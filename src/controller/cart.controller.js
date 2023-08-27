@@ -80,7 +80,6 @@ export const updateProduct = async (req, res) => {
 //       : res.send({ ...res });
 //   };
 
-
 export const updateProductQuantity = async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
