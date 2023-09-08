@@ -6,10 +6,12 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const storage = multer.diskStorage({
-  destination: function (request, file, cb) {
-    cb(null, `${__dirname}/public/images/products`)
+  destination: function (req, file, cb) {
+    if ( type === 'products' ) cb(null, `${__dirname}/public/images/products`);
+    if ( type === 'profile' ) cb(null, `${__dirname}/public/images/profile`);
+    if ( type === 'documents' ) cb(null, `${__dirname}/public/images/documents`);
   },
-  filename: function (request, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname)
   },
 });

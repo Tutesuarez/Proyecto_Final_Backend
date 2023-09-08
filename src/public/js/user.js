@@ -16,10 +16,11 @@ const sendForm = async (e) => {
   if (message?.success) {
     userform.reset();
     alert(message.success);
-    setTimeout(() => window.location.href = '/products', 200);
+    setTimeout(() => window.location.href = '/products', 500);
   } else {
     alert(message.error);
   }
 };
 
 userform.addEventListener("submit", sendForm);
+
