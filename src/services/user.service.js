@@ -51,3 +51,21 @@ export const deleteOne = async (id) => {
         return error 
     } 
 }
+
+export const setLastConnection = async (uid) => { 
+    try { 
+        const setConnection = await UserManager.setLastConnection(uid) 
+        return setConnection 
+    } catch (error) { 
+        return error 
+    } 
+}
+
+export const uploadDocument= async (uid, documents) => { 
+    try { 
+        const upLoadDoc = await UserManager.uploadDocuments(uid, documents) 
+        return upLoadDoc 
+    } catch (error) { 
+        return error 
+    } 
+}

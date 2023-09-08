@@ -134,4 +134,31 @@ export default class userManager {
             return { error: error.message };
         }
     }
+    async setLastConnection(uid) {
+        try {
+          let result = await userModel.updateOne(
+            { _id: uid },
+            { $set: { last_connection: new Date().toISOString() } }
+          );
+          return result;
+        } catch (error) {
+          return { error: error.message };
+        }
+      }
+    
+      async uploadDocuments(uid, documents) {
+        try {
+          let user = await userModel.findOne({ _id: uid }, { __v: 0 }).lean();
+          if (!user) throw new Error(`User not exists.`);
+          let result = await userModel.updateOne(
+            { _id: uid },
+            { $set: { documents } }
+          );
+          return result;
+        } catch (error) {
+          return { error: error.message };
+        }
+      }
 }
+
+

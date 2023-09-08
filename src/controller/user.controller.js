@@ -1,4 +1,4 @@
-import { findall, createOne, findById } from "../services/user.service.js"
+import { findall, createOne, findById, uploadDocument } from "../services/user.service.js"
 
 
 export const findAllUsers = async (req, res) => {
@@ -33,6 +33,20 @@ export const createOneUser = async (req, res) => {
   }
 }
 
+export const uploadDocuments = async (req, res) => {
+  const { uid } = req.params;
+  const { files } = req;
+  try {
+    let documents = [];
+    files.forEach((file) => {
+      documents.push({ name: file.fieldname, reference: file.filename });
+    });
+    let result = await uploadDocument(uid, documents)
+    res.send({status: 'success',payload: result});
+  } catch (error) {
+    res.status(500).send({status: 'error', payload:"There was an error uploading the documents"});
+  }
+}
 
 // // Limpiar
 // export const getUser = async (req, email) => {

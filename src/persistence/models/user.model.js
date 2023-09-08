@@ -26,18 +26,37 @@ const userSchema = new Schema({
     cart: {
         type: Schema.Types.ObjectId,
         ref: "carts",
-      },
-    role: { 
-        type: String, 
-        default: "user" 
+    },
+    role: {
+        type: String,
+        default: "user"
     },
     recover_password: {
-      id_url: {type: String},
-      createTime: {type: String}
+        id_url: { 
+            type: String 
+        },
+        createTime: { 
+            type: String 
+        }
+    },
+    documents: {
+        type: [
+            {
+                name: { 
+                    type: String 
+                },
+                reference: { 
+                    type: String 
+                }
+            }
+        ]
+    },
+    last_connection: { 
+        type: String 
     }
 });
 
-userSchema.pre('findOne', function(){
+userSchema.pre('findOne', function () {
     this.populate('cart')
 })
 

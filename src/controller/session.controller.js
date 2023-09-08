@@ -11,6 +11,7 @@ import { logger } from '../utils/logger.js';
 // import { createCart } from './cart.controller.js'
 import { createOne } from '../services/user.service.js'
 import { addCart } from '../services/cart.service.js'
+import { setLastConnection } from '../services/user.service.js'
 
 
 // const roleRedirects = {
@@ -53,6 +54,7 @@ export const login = async (req, res) => {
         
         delete user.password
         req.session.user = user
+        await setLastConnection(user._id)
         const token = generateToken(user)
         res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).send({status: 'success', redirectURL:'/perfil'})
         // const userRole = user.role || 'default';

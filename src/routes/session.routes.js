@@ -14,7 +14,7 @@ routerSession.post("/resetpassword", resetpassword);
 routerSession.post("/recoverpassword", recoverpassword);
 routerSession.post('/current', current)
 routerSession.get('/validation', passportCall('jwt'), validation)
-routerSession.get("/premium/:uid",passportCall('jwt'), changeRole);
+
 
 
 routerSession.get('/githubSignup'), passport.authenticate('githubSignup', { scope: ['user:email'] }), async (req, res) => { }
