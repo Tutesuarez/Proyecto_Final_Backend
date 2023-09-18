@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { uploader } from "../path.js";
-import { authorizationRole } from "../middleware/session..middleware.js";
+import { authorizationRole,passportCall } from "../middleware/session..middleware.js";
 import {
   getProducts,
   addProduct,
@@ -14,7 +14,7 @@ const router = Router();
 
 router.get('/:pid', authorizationRole(["user", "admin", "premium"]), getProductsById)
 
-router.delete('/:pid', authorizationRole(["admin", "premium"]), deleteProduct)
+router.delete('/:pid',passportCall("jwt"), authorizationRole(["admin", "premium"]), deleteProduct)
 
 router.put('/:pid', authorizationRole(["admin", "premium"]), updateProduct)
 

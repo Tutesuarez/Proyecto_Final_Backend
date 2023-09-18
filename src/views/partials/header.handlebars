@@ -1,11 +1,40 @@
 <header>
-  <nav>
-    <ul class="nav">
-      <li><a class="link-item" href="/products">Home</a></li>
-      <li><a class="link-item" href="/realTimeProducts">Load Products</a></li>
-      <li><a class="link-item" href="/carts">Cart</a></li>
-      <li><a class="link-item" href="/perfil">Profile</a></li>
-      <li><a class="link-item" href="/chat">Chat</a></li>
-    </ul> 
+  <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {{#if logued}}
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/carts">Cart</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/perfil">Perfil</a>
+            </li>
+            {{#if role}}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/realTimeProducts">New Product</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/users">Users</a>
+              </li>
+            {{else}}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/chat">Chat</a>
+              </li>
+            {{/if}}
+          {{else}}
+            <li class="nav-item justify-end">
+              <a class="nav-link active" aria-current="page" href="/login">Login</a>
+            </li>
+            <li class="nav-item justify-end">
+              <a class="nav-link active" aria-current="page" href="/register">Register</a>
+            </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>

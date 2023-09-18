@@ -180,3 +180,52 @@
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: ReferenceError - product_by_id is not defined"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error Personalizado: ReferenceError - product_by_id is not defined"}
+{"level":"error","message":"Error Personalizado: ReferenceError - product_by_id is not defined"}
+{"level":"error","message":"Error Personalizado: ReferenceError - product_by_id is not defined"}
+{"level":"error","message":"Error Personalizado: ReferenceError - product_by_id is not defined"}
+{"level":"error","message":"Error Personalizado: ReferenceError - product_by_id is not defined"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'send')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'send')"}
+{"level":"error","message":"Error Personalizado: ReferenceError - id is not defined"}
+{"level":"error","message":"Error Personalizado: ReferenceError - id is not defined"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'send')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'send')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'send')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'pid')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'pid')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'pid')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'pid')"}
+{"level":"error","message":"Error Personalizado: ReferenceError - parse is not defined"}
+{"level":"error","message":"Error Personalizado: SyntaxError - Unexpected token o in JSON at position 1"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'params')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: ReferenceError - pid is not defined"}
+{"level":"error","message":"Error Personalizado: ReferenceError - pid is not defined"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}

@@ -9,7 +9,7 @@ import { codeGenerator } from './ticket.controller.js'
 import { transporter } from '../utils/nodemailer.js'
 import { logger } from '../utils/logger.js';
 // import { createCart } from './cart.controller.js'
-import { createOne } from '../services/user.service.js'
+import { createOne, findById } from '../services/user.service.js'
 import { addCart } from '../services/cart.service.js'
 import { setLastConnection } from '../services/user.service.js'
 
@@ -97,6 +97,8 @@ export const register = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
+    const { user } = req.session
+    await setLastConnection(user._id);
     req.session.destroy((err) => {
         if (!err) {
             res.clearCookie("tokenBE").redirect("/login")
@@ -220,10 +222,39 @@ export const recoverpassword = async (req, res) => {
         html: `<a href="http://localhost:8080/resetpassword/${user.recover_password.id_url}">Recover Password</a>`
     })
     res.send({ result })
-};
+}
 
 export const changeRole = async (req, res) => {
-    const { uid } = req.params;
+    const { uid } = req.params
+    let user = await findById(uid) 
+    if (!user)
+      res.status(404).send({ status: "error", payload: "User not found" });
+    if (user.role === "admin")
+      return res.status(404).send({
+        status: "error",
+        payload: "You can´t change an Admin user role.",
+      })
+    if (user.role === "user") {
+      if (user.documents) {
+        let identification = user.documents.find((doc) => doc.name !== "id");
+        let addressVerification = user.documents.find(
+          (doc) => doc.name !== "address"
+        );
+        let accountState = user.documents.find((doc) => doc.name !== "account");
+        if (!identification || !addressVerification || !accountState)
+          return res.status(404).send({
+            status: "error",
+            payload:
+              "You must upload all of the documents to become an premium user.",
+          });
+      } else {
+        return res.status(404).send({
+          status: "error",
+          payload:
+            "You must upload all of the documents to become an premium user.",
+        });
+      }
+    }
     let result = await roleChanger(uid)
-    res.send({ result });
-}
+    res.send({ status: "success", payload: { message: 'The role was successfully modified.', result} })
+  }

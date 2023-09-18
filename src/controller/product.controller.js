@@ -10,6 +10,9 @@ import CustomError from "../middleware/errors/CustomError.js"
 import { generateProductErrorAttributes } from "../middleware/errors/info.js";
 import EErrors from '../middleware/errors/enumeration.js'
 import { logger } from '../utils/logger.js';
+import { findById } from '../services/user.service.js';
+import { transporter } from '../utils/nodemailer.js';
+
 
 
 const getProducts = async (req, res) => {
@@ -75,11 +78,14 @@ const addProduct = async (req, res) => {
 
 }
 
-const getProductsById = async (req, res) => {
-    let id = req.params.pid
+const getProductsById =async (id, res) => {
+   //let pid = req.params
+  
+   console.log('recibo',id);
     try {
         const result = await getProductsByIdServices(id)
-        res.send({ status: `success`, product: result })
+        return result
+       // res.send({status:'success', product: result })
     } catch (error) {
         if (CustomError.createError(error)) {
             // Registra el error personalizado con información adicional
@@ -91,7 +97,7 @@ const getProductsById = async (req, res) => {
             // Registra otros errores normalmente
             logger.error(error);
           }
-        res.status(500).send({ error })
+        //res.status(500).send({ error })
     }
 };
 
@@ -117,18 +123,34 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
+  const {user}= req.session
   let id = req.params.pid
-  const { user } = request.user;
-  if(user.role === "premium") { 
-    let res = await getProductsById(pid);
-    if(res.owner.toString() !== user._id) {
-      return response.status(401).send({ error: 'You do not have permissions to perform this action'})
+  try {
+    let product_by_id = await getProductsById(id) 
+    if(user.role === "premium") { 
+      if(product_by_id.owner.toString() !== user._id) {
+        return res.status(401).send({ error: 'You do not have permissions to perform this action'})
+      }
     }
-  }
-    try {
         const product = await deleteProductServices(id)
-        res.send({ status: "success", payload: product })
-    } catch (error) {
+        // res.send({ status: "success", payload: product })
+        if(product?.error) {
+          res.send({ status: "error", payload: product.error });
+        } else {
+          let owner = await findById(product_by_id.owner);
+          if (owner.role === "premium") {
+            await transporter.sendMail({
+              from: "FASHION <be.creativedesing@gmail.com>",
+              to: owner.email,
+              subject: "Producto eliminado.",
+              html: `<p>Your product ${product_by_id.title} has been removed.</p>`,
+            });
+          }
+          res.send({
+            status: "success",
+            payload: "The product was successfully removed",
+          })
+    }} catch (error) {
         if (CustomError.createError(error)) {
             // Registra el error personalizado con información adicional
             logger.error(`Error Personalizado: ${error.name} - ${error.message}`, {
@@ -139,9 +161,12 @@ const deleteProduct = async (req, res) => {
             // Registra otros errores normalmente
             logger.error(error);
           }
-        res.status(500).send({ error })
+       // res.status(500).send({ error })
     }
-}
+  }
+
+
+
 
 const getMocksProducts = async (req, res) => {
     let mockproducts = []

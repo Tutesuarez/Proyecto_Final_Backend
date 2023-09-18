@@ -24,3 +24,23 @@ const addToCart = async (e) => {
   }
 };
 
+const deleteProduct = async (e) => {
+  if (e.target.classList.contains("deleteProduct")) {
+    let pid = e.target.dataset.id;
+    let res = await fetch(`api/products/${pid}`, { method: "DELETE"});
+    let message = await res.json();
+    if (message?.success) {
+      Swal.fire({
+        text: `${message.success}`,
+        toast: true,
+        position: "top-right",
+      });
+    } else {
+      Swal.fire({
+        text: `${message.error}`,
+        toast: true,
+        position: "top-right",
+      });
+    }
+  }
+};

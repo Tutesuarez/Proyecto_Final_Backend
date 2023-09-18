@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { changeRole } from '../controller/session.controller.js'
-import { findAllUsers, findOneUser, createOneUser, uploadDocuments } from '../controller/user.controller.js'
-import { passportCall } from '../middleware/session..middleware.js'
+import { findAllUsers, findOneUser, createOneUser, uploadDocuments, deleteUsers } from '../controller/user.controller.js'
+import { authorizationRole, passportCall} from '../middleware/session..middleware.js'
 import '../config/passport.js'
 import { uploader } from '../path.js'
 
@@ -12,6 +12,6 @@ routerUsers.get('/:id',findOneUser)
 routerUsers.post('/',createOneUser)
 routerUsers.get("/premium/:uid",passportCall('jwt'), changeRole)
 routerUsers.post("/:uid/documents", uploader.any(), uploadDocuments)
-
+routerUsers.delete("/",passportCall("jwt"), authorizationRole(["admin"]), deleteUsers)
 
 export default routerUsers

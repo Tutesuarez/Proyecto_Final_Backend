@@ -52,6 +52,15 @@ export const deleteOne = async (id) => {
     } 
 }
 
+export const deleteInactiveUser = async(uid)=>{
+    try {
+        const delInactiveUsers = await deleteInactiveUser(uid)
+        return delInactiveUsers
+    } catch (error) {
+        return error
+    }
+}
+
 export const setLastConnection = async (uid) => { 
     try { 
         const setConnection = await UserManager.setLastConnection(uid) 

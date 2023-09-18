@@ -3,6 +3,7 @@ import CustomError from "../middleware/errors/CustomError.js"
 import { logger } from '../utils/logger.js'
 import { getProducts as getProductsServices } from '../services/product.service.js'
 import { getCart } from "../services/cart.service.js"
+import {findall as getall} from "../services/user.service.js"
 
 
 export const newProductView = async (req, res) => {
@@ -65,7 +66,8 @@ export const productViewer = async (req, res) => {
 export const loginView = async (req, res) => {
   res.render("login", {
     title: "LogIn",
-    style: "home"
+    style: "home",
+    logued: false
   })
 }
 
@@ -98,7 +100,9 @@ export const errorSingUpView = async (req, res) => {
 export const chatView = async (req, res) => {
   res.render("chat", {
     title: 'Chat Rooms',
-    style: "chatStyles"
+    style: "styles",
+    logued: true,
+    user
   })
 }
 
@@ -156,6 +160,19 @@ export const cartView = async (req, res) => {
     cid: _id,
     display: products.length > 0 ? true : false,
     logued: true,
-  });
-};
+  })
+}
 
+export const usersView = async (req, res) => {
+  const {user} = req.user;
+  let us = JSON.stringify(await getall())
+  res.render('users', {
+    title: "Users",
+    style: "home",
+    logued: true,
+    user,
+    users: JSON.parse(us),
+    admin: user.role === "admin",
+    role: user.role === "admin" || user.role === "premium",
+  })
+}

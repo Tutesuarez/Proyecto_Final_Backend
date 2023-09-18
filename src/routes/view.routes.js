@@ -12,7 +12,8 @@ import {
   resetPasswordView,
   recoverPassword,
   productViewer,
-  cartView
+  cartView,
+  usersView
 } from "../controller/view.controller.js"
 
 
@@ -26,7 +27,7 @@ router.get('/login', passportCallRedirect("jwt"), loginView)
 
 router.get("/products", authorizationRole(["admin", "user", "premium"]), productViewer)
 
-router.get("/realtimeproducts", authorizationRole(["admin", "premium"]), newProductView)
+router.get("/realtimeproducts",passportCall("jwt"), authorizationRole(["admin", "premium"]), newProductView)
 
 router.get('/register',passportCallRedirect("jwt"), singUpView)
 
@@ -41,6 +42,8 @@ router.get('/errorsingup', errorSingUpView)
 router.get("/resetpassword/:idurl", resetPasswordView)
 
 router.get("/recoverpassword", recoverPassword)
+
+router.get("/users", passportCall("jwt"), authorizationRole(["admin"]), usersView);
 
 router.get("/chat",passportCall("jwt"), authorizationRole(["user", "premium"]), chatView)
 

@@ -27,7 +27,7 @@ router.put("/:cid/products/:pid", authorizationRole(["user", "premium"]), update
 
 router.delete("/:cid/products/:pid", authorizationRole(["user", "premium"]), productDelete);
 
-router.get('/:cid/empty', authorizationRole(["user","premium"]), emptyCart)
+router.get('/:cid/empty', authorizationRole(["user","premium","admin"]), emptyCart)
 
 router.get('/:cid/purchase', authorizationRole(["user","premium"]), preCheckOut)
 
