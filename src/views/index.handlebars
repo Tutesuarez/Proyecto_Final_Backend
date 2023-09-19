@@ -1,55 +1,71 @@
 <section class="products">
-  <div style="color: #333; text-align: center;">
-    <h2>Bienvenido: {{name}}</h2>
-    <h3>Rol: {{role}}</h3>
+  <div class="card shaow-sm p-3" style="color: #333; text-align: start;">
+    <div class="cad-body">
+      <p>Bienvenido: {{name}}</p>
+      <p>Rol: {{role}}</p>
+    </div>
     <p class="cart-id" hidden>{{cart._id}}</p>
   </div>
   <div>
-    <h1>Products</h1>
+    <h1 class="text-center">PRODUCTS</h1>
     <form action="/products" method="get" class="form_search">
-      <select name="keyword" id="keyword" class="form_select">
-        <option value="">Select a Category</option>
-        <option value="man">Men</option>
-        <option value="woman">Woman</option>
-        <option value="kids">Kids</option>
-      </select>
-      <select name="sort" id="sort" class="form_select">
-        <option value="">Sort by price</option>
-        <option value="asc">Ascendant</option>
-        <option value="desc">Descendant</option>
-      </select>
-      <button class="btn-primary" type="submit">Search</button>
+      <div class="row">
+        <div class="col">
+          <select name="keyword" id="keyword" class="form-select">
+            <option value="">Select a Category</option>
+            <option value="man">Men</option>
+            <option value="woman">Woman</option>
+            <option value="kids">Kids</option>
+          </select>
+        </div>
+        <div class="col">
+          <select name="sort" id="sort" class="form-select">
+            <option value="">Sort by price</option>
+            <option value="asc">Ascendant</option>
+            <option value="desc">Descendant</option>
+          </select>
+        </div>
+        <div class="col" >
+            <button class=" btn btn-primary" type="submit">Search</button>
+        </div>
+      </div>
+
     </form>
   </div>
   {{#if products}}
-  <div class="products_list">
+  <div class="products_list  row row-cols-1 row-cols-sm-2 row-cols-lg-4 m-auto g-3 mb-4" style="max-width: 1270px">
     {{#each products}}
     <div class="product">
-      <img src="images/products/{{this.thumbnails.[0]}}" alt="{{this.title}}" />
-      <h1>ID: {{this._id}}</h1>
-      <h3>Title: {{this.title}}</h3>
-      <p>Description: {{this.description}}</p>
-      <p>Stock: {{this.stock}}</p>
-      <p>Price: {{this.price}}</p>
-      <div class="btn-container">
-        <button data-id="{{this._id}}" class="btn-primary addtocart">Add to cart</button>
-        <button data-id="{{this._id}}" class="btn-danger deleteProduct">Delete</button>
-
+      <div class="col">
+        <div class="card m-auto shaow-sm">
+          <img class="card-img" src="images/products/{{this.thumbnails.[0]}}" alt="{{this.title}}" />
+          <div class="card-body">
+            <p>ID: {{this._id}}</p>
+            <h3>Title: {{this.title}}</h3>
+            <p>Description: {{this.description}}</p>
+            <p>Stock: {{this.stock}}</p>
+            <p>Price: {{this.price}}</p>
+            <div class="btn-container">
+              <button data-id="{{this._id}}" class="btn btn-primary addtocart">Add to cart</button>
+              <button data-id="{{this._id}}" class="btn btn-danger deleteProduct">Delete</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {{/each}}
   </div>
   <article class="pagination">
     {{#if pag.prevLink}}
-    <a href="{{pag.prevLink}}" class="btn-primary prev_button">Prev</a>
+    <a href="{{pag.prevLink}}" class="btn btn-primary prev_button">Prev</a>
     {{else}}
-    <a class="btn-primary prev_button disabled">Prev</a>
+    <a class="btn btn-primary prev_button disabled">Prev</a>
     {{/if}}
-    <span class="actual_page">{{pag.page}}</span>
+    <h2 class=" numero_pagination ps-1 pe-1 mx-2"><span class="actual_page">{{pag.page}}</span></h2>
     {{#if pag.nextLink}}
-    <a href="{{pag.nextLink}}" class="">Next</a>
+    <a href="{{pag.nextLink}}" class="btn btn-primary next_button">Next</a>
     {{else}}
-    <a class="btn-primary next_button disabled">Next</a>
+    <a class="btn btn-primary next_button disabled">Next</a>
     {{/if}}
   </article>
 </section>

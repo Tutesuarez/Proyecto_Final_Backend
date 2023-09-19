@@ -79,9 +79,6 @@ const addProduct = async (req, res) => {
 }
 
 const getProductsById =async (id, res) => {
-   //let pid = req.params
-  
-   console.log('recibo',id);
     try {
         const result = await getProductsByIdServices(id)
         return result
@@ -133,7 +130,6 @@ const deleteProduct = async (req, res) => {
       }
     }
         const product = await deleteProductServices(id)
-        // res.send({ status: "success", payload: product })
         if(product?.error) {
           res.send({ status: "error", payload: product.error });
         } else {
@@ -161,7 +157,6 @@ const deleteProduct = async (req, res) => {
             // Registra otros errores normalmente
             logger.error(error);
           }
-       // res.status(500).send({ error })
     }
   }
 

@@ -1,5 +1,6 @@
-import { findall, createOne, findById, uploadDocument,deleteInactiveUser} from "../services/user.service.js"
+import { findall, createOne, findById, uploadDocument, deleteOne} from "../services/user.service.js"
 import moment from "moment"
+import { transporter } from "../utils/nodemailer.js"
 
 
 export const findAllUsers = async (req, res) => {
@@ -59,13 +60,13 @@ export const deleteUsers = async (req, res) => {
   users_result.forEach(async (user) => {
     let diff = 'last_connection' in user ? date.diff(moment(user.last_connection), "days") : null;
       if (diff > 2 || diff === null) {
-      let user_delete = await deleteInactiveUser(user._id)
+      let user_delete = await deleteOne(user._id)
       if (user_delete?.error)
         return res
           .status(500)
           .send({ status: "error", payload: users_result.error });
         else {
-          await transport.sendMail({                           
+          await transporter.sendMail({                           
             from: "FASHION <be.creativedesing@gmail.com>",
             to: user.email,
             subject: "Your account was deleted for stagnation",
@@ -78,3 +79,29 @@ export const deleteUsers = async (req, res) => {
   });
   res.send({ status: "success", payload: "All of the innactive users were deleted" });
 };
+
+export const deleteUser = async (req, res) => {
+  const { uid } = req.params
+  let user = await findById(uid) 
+  if (user.role === "admin")
+      return res.status(404).send({
+        status: "error",
+        payload: "You can´t delete an Admin user role.",
+      })
+    if (user.role === "user" || user.role === "premium") {
+      let userdeleted = await deleteOne(uid)
+      if (userdeleted?.error)
+      return res.status(500).send({ status: "error", payload: users_result.error });
+      else {
+        await transporter.sendMail({                           
+          from: "FASHION <be.creativedesing@gmail.com>",
+          to: user.email,
+          subject: "Your account was deleted",
+          html: `<div>
+            <p><strong>${user.first_name} ${user.last_name}</strong> Your account was deleted. If you think that there was an error put in conctact with FASHION</p>
+          </div>`,
+        });
+      }
+    res.send({ status: "success", payload: { message: 'The user was removed.', userdeleted} })
+    }
+    }

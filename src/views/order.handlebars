@@ -1,21 +1,20 @@
-<section>
-<div>
-    <h2> Your pucharse</h2>
-</div>
-{{#if resp2}}
-<div>
-    <p>Code: {{resp2.code}}</p>
-    <p>Date: {{resp2.purchase_datetime}}</p>
-    <p>Buyer: {{resp2.purchaser}} </p>
-    <p>Pucharse Amount: {{resp2.amount}} </p>
-</div>
-{{/if}}
-<div>
-    <p>Thank you for shopping at FASHION. You will receive the purchase summary in your email </p>
-</div>
-<div>
-    <button onclick="location.href='/'"> Back to Home </button>
-</div>
+<section class="m-3">
+    <div>
+        <h2 class="fw-bold text-center"> Your pucharse</h2>
+    </div>
+    <div class="card justify-center">
+        <div class="card-body" >
+        <p><span class="fw-bold">Code:</span> {{resp2.code}}</p>
+        <p><span class="fw-bold">Date:</span> {{resp2.purchase_datetime}}</p>
+        <p><span class="fw-bold">Buyer:</span> {{resp2.purchaser}} </p>
+        <p><span class="fw-bold">Pucharse Amount:</span> {{resp2.amount}} </p>
+        </div>
+    </div>
+    <div>
+        <p class="text-center">Thank you for shopping at FASHION. You will receive the purchase summary in your email </p>
+    </div>
+    <div>
+        <button class="btn btn-outline-dark" onclick="location.href='/'"> Back to Home </button>
+    </div>
 
 </section>
-

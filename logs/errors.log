@@ -229,3 +229,4 @@
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'toString')"}
