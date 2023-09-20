@@ -1,23 +1,32 @@
-<h1>Login</h1>
-<form  method="POST"  class="user_form" action="" id="login">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <br>
+<section class="d-flex justify-content-center  pt-5">
+    <div class=" card border-dark beroder-3 p-3 d-flex align-items-center  mt-5" style="max-width: 350px">
+        <div class="my-1">
+            <h1>Login</h1>
+        </div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
+        <form method="POST" class="form user_form row" action="" id="login">
+            <div class="col-auto">
+                <label class="form-lavel" for="email">Email:</label>
+                <input class="form-control" type="email" id="email" name="email" required>
+            </div>
+            <div class="col-auto">
+                <label class="form-lavel" for="password">Password:</label>
+                <input class="form-control" type="password" id="password" name="password" required>
+            </div>
+            <div class="my-3">
+                <button class="btn btn-dark" type="submit">Login</button>
+            </div>
+        </form>
+        <div>
+            <p>Don't have an account yet? <a href="/register">Sign up here.</a></p>
+            <p>Forgot your password? <a href="/recoverpassword">Recover Password</a></p>
+        </div>
 
-    <button type="submit">Login</button>
-</form>
-<p>Don't have an account yet? <a href="/register">Sign up here.</a></p>
-<p>Forgot your password? <a href="/recoverpassword">Recover Password</a></p>
+        <div class="input-group mt-2 border-top pt-2">
+            <p class="input-text">Login with</p>
+            <button class="btn btn-outline-dark ms-1 rounded" onclick="location.href='api/session/githubSignup'">GITHUB</button>
+        </div>
+    </div>
 
-<h2>Login with GITHUB</h2>
-<button onclick="location.href='api/session/githubSignup'">GITHUB</button>
-<h2>Login with GOOGLE</h2>
-<button onclick="location.href='api/session/gooogle'">GOOGLE</button>
-
-<script src="/js/user.js"></script> 
-
-
+</section>
+<script src="/js/user.js"></script>

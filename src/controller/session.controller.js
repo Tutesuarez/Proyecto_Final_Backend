@@ -8,18 +8,10 @@ import { changePassword, findOneByEmail, recoverPass, roleChanger } from '../ser
 import { codeGenerator } from './ticket.controller.js'
 import { transporter } from '../utils/nodemailer.js'
 import { logger } from '../utils/logger.js';
-// import { createCart } from './cart.controller.js'
 import { createOne, findById } from '../services/user.service.js'
 import { addCart } from '../services/cart.service.js'
 import { setLastConnection } from '../services/user.service.js'
 
-
-// const roleRedirects = {
-//     admin: '/perfil',
-//     premium: '/perfil',
-//     user:'/',
-//     default: '/',
-// }
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
@@ -70,7 +62,6 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
     const { first_name, last_name, email, gender, password } = req.body
-
     try {
         const exists = await findOneByEmail(email)
         if (exists) return res.status(400).send({ status: 'error', error: 'user already exists' })
@@ -87,7 +78,6 @@ export const register = async (req, res) => {
         }
 
         await userModel.create(user)
-        // await createOne(user)
 
        res.redirect('/login')
     } catch (error) {

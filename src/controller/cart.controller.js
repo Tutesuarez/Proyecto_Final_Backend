@@ -23,7 +23,7 @@ export const addCart = async (req, res) => {
       req.logger.error(`ERROR => ${new Date()} - ${ resp.error }`);
       res.status(404).send({ status: resp.error });
     } else {
-      res.send({ status: 'success', payload: resp});
+      return resp
     }
   }
 
