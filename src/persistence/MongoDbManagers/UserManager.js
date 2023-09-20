@@ -4,7 +4,8 @@ import UserDTO from "../../DTO/user.dto.js"
 export default class userManager {
     async findall() {
         try {
-            const user = await userModel.find()
+            const user = await userModel.find({},
+                { first_name: 1, last_name: 1, email: 1, role: 1, last_connection: 1 })
             return user
         } catch (error) {
             return error
@@ -120,20 +121,20 @@ export default class userManager {
         }
     }
 
-    async changeRole(uid) {
-        try {
-            let user = await userModel.findOne({ _id: uid }, { __v: 0 }).lean();
-            if (!user) throw new Error(`User not exists.`);
-            let newRole = (user.role === "user") ? "premium" : "user";
-            let result = await userModel.updateOne(
-                { _id: uid },
-                { $set: { role: newRole } }
-            );
-            return result;
-        } catch (error) {
-            return { error: error.message };
-        }
+  async changeRole(uid) {
+    try {
+      let user = await userModel.findOne({ _id: uid }, { __v: 0 }).lean();
+      if (!user) throw new Error(`User not exists.`);
+      let newRole = user.role === "user" ? "premium" : "user";
+      let result = await userModel.updateOne(
+        { _id: uid },
+        { $set: { role: newRole } }
+      );
+      return result;
+    } catch (error) {
+      return { error: error.message };
     }
+  }
     async setLastConnection(uid) {
         try {
           let result = await userModel.updateOne(

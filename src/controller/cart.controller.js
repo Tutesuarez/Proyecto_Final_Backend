@@ -23,7 +23,7 @@ export const addCart = async (req, res) => {
       req.logger.error(`ERROR => ${new Date()} - ${ resp.error }`);
       res.status(404).send({ status: resp.error });
     } else {
-      res.send({ status: 'success', payload: resp});
+      return resp
     }
   }
 
@@ -141,12 +141,12 @@ export const preCheckOut = async (req, res) => {
             if (resp2?.error) {
                 return res.status(400).send({ ...resp2 });
             } else {
-                const { purchaser: email, code,amount } = resp2
+                const { purchaser: email, code, amount } = resp2
 
                 try {
                     await updateProductsServices(cid, nonStockProduct);
                     await sendMessage(email,code,amount)
-                    return res.render('order', resp2)
+                     return res.render('order', {resp2})
                 } catch (error) {
                     return res.status(500).json({ message: error.message })
                 }

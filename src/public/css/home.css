@@ -18,58 +18,23 @@ body {
     margin-bottom: 2rem;
 }
 
-.products_list {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap; 
+.products_list.card {
+    
+    width: 280px !important;
+    height: auto;
 }
+.products_list.card.body.h3{
+    font-size: 20px;
+    color: #333;
+}
+
 
 .products h1 {
     margin: 1rem 0;
     color: #333;
 }
-
-.product {
-    max-width: 500px;
-    background-color: #fff;
+.numero_pagination{
     color: #333;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.product .btn_container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.product .delete_btn {
-    order: 2;
-    border: none;
-    padding: 10px 15px;
-    background-color: rgb(172, 22, 22);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-
-.product .addcart_btn {
-    order: 1;
-    border: none;
-    padding: 10px 15px;
-    background-color: green;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.product p {
-    margin: .5rem;
 }
 
 .create_form {

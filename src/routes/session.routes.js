@@ -1,8 +1,10 @@
 import { Router } from 'express'
 import passport from 'passport'
 import '../config/passport.js'
-import { current, login, logout, register, validation, resetpassword, recoverpassword, changeRole} from '../controller/session.controller.js'
+import { current, login, logout, register, validation, resetpassword, recoverpassword} from '../controller/session.controller.js'
 import { passportCall } from '../middleware/session..middleware.js'
+import { generateToken } from '../utils/tokengenerator.js'
+import { findOneByEmail } from '../services/session.service.js'
 
 const routerSession = Router()
 
@@ -20,16 +22,10 @@ routerSession.get('/validation', passportCall('jwt'), validation)
 routerSession.get('/githubSignup'), passport.authenticate('githubSignup', { scope: ['user:email'] }), async (req, res) => { }
 routerSession.get('/githubSignup', passport.authenticate('githubSignup', { failureRedirect: '/login' }),
     function (req, res) {
-        req.session.user = req.user;
-        res.redirect('/')
+        req.session.user = req.user
+        const user = findOneByEmail(req.user)
+        const token = generateToken(user)
+        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).redirect('/products')
     })
-
-routerSession.get('/GoogleSignup', passport.authenticate('GoogleStrategy',{ scope: ['user:email'] }))
-routerSession.get('/google', passport.authenticate('GoogleStrategy',{failureRedirect: '/login'}),
-function (req, res) {
-    req.session.user = req.user;
-    res.redirect('/')
-})
-
 
 export default routerSession;

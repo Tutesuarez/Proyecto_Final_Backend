@@ -1,4 +1,6 @@
-import { findall, createOne, findById, uploadDocument } from "../services/user.service.js"
+import { findall, createOne, findById, uploadDocument, deleteOne} from "../services/user.service.js"
+import moment from "moment"
+import { transporter } from "../utils/nodemailer.js"
 
 
 export const findAllUsers = async (req, res) => {
@@ -48,13 +50,58 @@ export const uploadDocuments = async (req, res) => {
   }
 }
 
-// // Limpiar
-// export const getUser = async (req, email) => {
-//   try {
-//     let user = await userModel.findOne({ email: email }, { __v: 0 }).lean()
-//     if (!user) throw new Error(`User not exists.`)
-//     return res.json(user);
-//   } catch (error) {
-//     return res.status(400).json({ error: error.message });
-//   }
-// }
+export const deleteUsers = async (req, res) => { 
+  let date = moment();
+  let users_result = await findall()
+  if (users_result?.error)
+    return res
+      .status(500)
+      .send({ status: "error", payload: users_result.error });
+  users_result.forEach(async (user) => {
+    let diff = 'last_connection' in user ? date.diff(moment(user.last_connection), "days") : null;
+      if (diff > 2 || diff === null) {
+      let user_delete = await deleteOne(user._id)
+      if (user_delete?.error)
+        return res
+          .status(500)
+          .send({ status: "error", payload: users_result.error });
+        else {
+          await transporter.sendMail({                           
+            from: "FASHION <be.creativedesing@gmail.com>",
+            to: user.email,
+            subject: "Your account was deleted for stagnation",
+            html: `<div>
+              <p><strong>${user.first_name} ${user.last_name}</strong> Your account was deleted since there was no activity for more than 2 days.</p>
+            </div>`,
+          });
+        }
+      }
+  });
+  res.send({ status: "success", payload: "All of the innactive users were deleted" });
+};
+
+export const deleteUser = async (req, res) => {
+  const { uid } = req.params
+  let user = await findById(uid) 
+  if (user.role === "admin")
+      return res.status(404).send({
+        status: "error",
+        payload: "You can´t delete an Admin user role.",
+      })
+    if (user.role === "user" || user.role === "premium") {
+      let userdeleted = await deleteOne(uid)
+      if (userdeleted?.error)
+      return res.status(500).send({ status: "error", payload: users_result.error });
+      else {
+        await transporter.sendMail({                           
+          from: "FASHION <be.creativedesing@gmail.com>",
+          to: user.email,
+          subject: "Your account was deleted",
+          html: `<div>
+            <p><strong>${user.first_name} ${user.last_name}</strong> Your account was deleted. If you think that there was an error put in conctact with FASHION</p>
+          </div>`,
+        });
+      }
+    res.send({ status: "success", payload: { message: 'The user was removed.', userdeleted} })
+    }
+    }

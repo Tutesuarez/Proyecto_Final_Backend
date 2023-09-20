@@ -1,25 +1,40 @@
-<section class="cart_container">
-  <div>
-    <h1>Cart</h1>
+<section class="cart_container m-3">
+  <div class="my-1">
+    <h1 class="text-center text-">CART</h1>
   </div>
   <div>
     <h3>Products</h3>
-   {{#if products}}
-    {{#each products}}
+    {{#if products}}
+    <table class="table table-striped ">
+      <thead class="rounded">
+        <tr>
+          <th scope="col">
+            <h3>Product</h3>
+          </th>
+          <th scope="col">
+            <h3>Price x units</h3>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="rounded" id="users">
+        {{#each products}}
+        <tr>
+          <td><strong>
+              <p>{{this.product.title}}</p>
+            </strong></td>
+          <td><strong>${{this.product.price}} x {{this.quantity}} Units</strong></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
     <div>
-      <p>{{this.product.title}}</p>
-      <span>${{this.product.price}} x {{this.quantity}} Units</span>
-      
+      <button class="btn btn-dark" onclick="location.href='/api/carts/{{cid}}/empty'">Empty Cart</button>
+      <button class="btn btn-outline-dark" onclick="location.href='/api/carts/{{cid}}/purchase'">Check Out</button>
     </div>
-    {{/each}}
-    <div>
-      <button onclick="location.href='/api/carts/{{cid}}/empty'" >Empty Cart</button>
-      <button onclick="location.href='/api/carts/{{cid}}/purchase'">Check Out</button>
-    </div>
-  {{else}}
+    {{else}}
     <div>
       <h3>Empty Cart.</h3>
     </div>
-  {{/if}}
+    {{/if}}
 
 </section>
