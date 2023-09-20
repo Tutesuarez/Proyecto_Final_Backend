@@ -19,6 +19,5 @@ export default{
     gmail_password: process.env.GMAIL_PASSWORD,
     loggerType: process.env.LOGGER,
     node_tls: process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0',
-    node_debug: process.env.NODE_DEBUG = 'tls'
-    
+    node_debug: process.env.NODE_DEBUG = 'tls',
 }
