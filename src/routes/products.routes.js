@@ -16,9 +16,9 @@ router.get('/:pid', authorizationRole(["user", "admin", "premium"]), getProducts
 
 router.delete('/:pid',passportCall("jwt"), authorizationRole(["admin", "premium"]), deleteProduct)
 
-router.put('/:pid', authorizationRole(["admin", "premium"]), updateProduct)
+router.put('/:pid',passportCall("jwt"), authorizationRole(["admin", "premium"]), updateProduct)
 
-router.post('/', authorizationRole(["admin", "premium"]), uploader.array("thumbnails"), addProduct)
+router.post('/',passportCall("jwt"), authorizationRole(["admin", "premium"]), uploader.array("thumbnails"), addProduct)
 
 router.get('/', authorizationRole(["user", "admin", "premium"]),getProducts)
 

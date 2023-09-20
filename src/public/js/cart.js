@@ -1,4 +1,4 @@
-
+// delete each product from the cart
 const deleteProduct = async (e) => {
   if (e.target.classList.contains("btn-danger")) {
     const cid = document.querySelector('.cart-id').textContent;

@@ -14,22 +14,21 @@ import {
 const router = Router()
 
 
-
 router.post("/", authorizationRole(["user", "premium"]), addCart)
 
 router.get("/:cid?",passportCall("jwt"), authorizationRole(["user","premium"]), getCart)
 
-router.post("/:cid/products/:pid", authorizationRole(["user", "premium"]), addProductToCart)
+router.post("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user", "premium"]), addProductToCart)
 
-router.put("/:cid", authorizationRole(["user", "premium"]), updateProduct);
+router.put("/:cid",passportCall("jwt"), authorizationRole(["user", "premium"]), updateProduct);
 
-router.put("/:cid/products/:pid", authorizationRole(["user", "premium"]), updateProductQuantity);
+router.put("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user", "premium"]), updateProductQuantity);
 
-router.delete("/:cid/products/:pid", authorizationRole(["user", "premium"]), productDelete);
+router.delete("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user", "premium"]), productDelete);
 
-router.get('/:cid/empty', authorizationRole(["user","premium","admin"]), emptyCart)
+router.get('/:cid/empty',passportCall("jwt"), authorizationRole(["user","premium","admin"]), emptyCart)
 
-router.get('/:cid/purchase', authorizationRole(["user","premium"]), preCheckOut)
+router.get('/:cid/purchase',passportCall("jwt"), authorizationRole(["user","premium"]), preCheckOut)
 
 
 export default router
