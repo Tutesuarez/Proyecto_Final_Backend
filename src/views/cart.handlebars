@@ -1,6 +1,7 @@
 <section class="cart_container m-3">
   <div class="my-1">
     <h1 class="text-center text-">CART</h1>
+    <p class="cart-id" hidden>{{cid}}</p>
   </div>
   <div>
     <h3>Products</h3>
@@ -23,6 +24,7 @@
               <p>{{this.product.title}}</p>
             </strong></td>
           <td><strong>${{this.product.price}} x {{this.quantity}} Units</strong></td>
+          <td><button class="btn btn-danger btn-delete" data-id="{{this._id}}">Delete</button></td>
         </tr>
         {{/each}}
       </tbody>
@@ -38,3 +40,4 @@
     {{/if}}
 
 </section>
+<script src="/js/cart.js"></script>

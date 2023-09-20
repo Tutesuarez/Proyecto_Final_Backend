@@ -98,11 +98,12 @@ export const errorSingUpView = async (req, res) => {
 }
 
 export const chatView = async (req, res) => {
+  const user = req.session
   res.render("chat", {
     title: 'Chat Rooms',
     style: "styles",
     logued: true,
-    user
+    user: user
   })
 }
 
