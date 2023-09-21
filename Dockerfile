@@ -1,6 +1,6 @@
-FROM node
+FROM node18.17.1
 
-WORKDIR /index
+WORKDIR /app
 
 COPY package*.json ./
 
