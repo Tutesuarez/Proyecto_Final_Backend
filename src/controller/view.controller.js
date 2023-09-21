@@ -3,7 +3,7 @@ import CustomError from "../middleware/errors/CustomError.js"
 import { logger } from '../utils/logger.js'
 import { getProducts as getProductsServices } from '../services/product.service.js'
 import { getCart } from "../services/cart.service.js"
-import {findall as getall} from "../services/user.service.js"
+import { findall as getall } from "../services/user.service.js"
 
 
 export const newProductView = async (req, res) => {
@@ -21,16 +21,16 @@ export const productViewer = async (req, res) => {
     let page = parseInt(req.query.page, 10) || 1
     const sort = req.query.sort || ''
 
-    console.log(sort);
+    console.log(sort)
     const { docs, ...pag } = await getProductsServices(keyword, limit, page, sort)
 
     const products = JSON.stringify(docs)
     const user = req.session.user
 
-    let urlParams = `?`;
-    if (keyword) urlParams += `keyword=${keyword}&`;
-    if (limit) urlParams += `limit=${limit}&`;
-    if (sort) urlParams += `sort=${sort}&`;
+    let urlParams = `?`
+    if (keyword) urlParams += `keyword=${keyword}&`
+    if (limit) urlParams += `limit=${limit}&`
+    if (sort) urlParams += `sort=${sort}&`
     pag.prevLink = pag.hasPrevPage ? `${urlParams}page=${pag.prevPage}` : null;
     pag.nextLink = pag.hasNextPage ? `${urlParams}page=${pag.nextPage}` : null;
 
@@ -114,7 +114,7 @@ export const resetPasswordView = async (req, res) => {
     res.redirect("/recoverpassword")
     return
   }
-  let create = new Date(result.recover_password.createTime);
+  let create = new Date(result.recover_password.createTime)
   let now = new Date();
   let minutes = (now.getTime() - create.getTime()) / 1000 / 60;
   if (minutes > 60) {
@@ -165,7 +165,7 @@ export const cartView = async (req, res) => {
 }
 
 export const usersView = async (req, res) => {
-  const {user} = req.user;
+  const { user } = req.user;
   let us = JSON.stringify(await getall())
   res.render('users', {
     title: "Users",

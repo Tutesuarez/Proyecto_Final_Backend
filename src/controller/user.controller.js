@@ -36,29 +36,29 @@ export const createOneUser = async (req, res) => {
 }
 
 export const uploadDocuments = async (req, res) => {
-  const { uid } = req.params;
-  const { files } = req;
+  const { uid } = req.params
+  const { files } = req
   try {
-    let documents = [];
+    let documents = []
     files.forEach((file) => {
-      documents.push({ name: file.fieldname, reference: file.filename });
+      documents.push({ name: file.fieldname, reference: file.filename })
     });
     let result = await uploadDocument(uid, documents)
-    res.send({status: 'success',payload: result});
+    res.send({status: 'success',payload: result})
   } catch (error) {
-    res.status(500).send({status: 'error', payload:"There was an error uploading the documents"});
+    res.status(500).send({status: 'error', payload:"There was an error uploading the documents"})
   }
 }
 
 export const deleteUsers = async (req, res) => { 
-  let date = moment();
+  let date = moment()
   let users_result = await findall()
   if (users_result?.error)
     return res
       .status(500)
       .send({ status: "error", payload: users_result.error });
   users_result.forEach(async (user) => {
-    let diff = 'last_connection' in user ? date.diff(moment(user.last_connection), "days") : null;
+    let diff = 'last_connection' in user ? date.diff(moment(user.last_connection), "days") : null
       if (diff > 2 || diff === null) {
       let user_delete = await deleteOne(user._id)
       if (user_delete?.error)
@@ -77,7 +77,7 @@ export const deleteUsers = async (req, res) => {
         }
       }
   });
-  res.send({ status: "success", payload: "All of the innactive users were deleted" });
+  res.send({ status: "success", payload: "All of the innactive users were deleted" })
 };
 
 export const deleteUser = async (req, res) => {

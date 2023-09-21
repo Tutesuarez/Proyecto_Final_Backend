@@ -1,7 +1,7 @@
 import { transporter } from '../utils/nodemailer.js'
 
 export const sendMessage = async (email, code, amount) => {
-    console.log(email, code, amount);
+    console.log(email, code, amount)
     try {
         await transporter.sendMail({
             from: 'FASHION',

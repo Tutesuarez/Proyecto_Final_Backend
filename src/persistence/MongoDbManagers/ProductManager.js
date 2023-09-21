@@ -4,10 +4,8 @@ export default class ProductManager {
 
   async addProduct(product) {
     try {
-      // if (this.#checkMandatoryFields(product))
-      //   throw new Error(`All the fields are mandatory.`)
-      // if (await this.#checkIfCodeExists(product.code))
-      //   throw new Error(`The product code already exists.`)
+      if (await this.#checkIfCodeExists(product.code))
+        throw new Error(`The product code already exists.`)
       let result = await productModel.create(product)
       return {
         success: `The product was successfully added.`,
@@ -85,11 +83,7 @@ export default class ProductManager {
     return exists
   }
 
-  #checkMandatoryFields(fields) {
-    if (Object.keys(fields).length !== 6) return true
-    return this.#checkIfEmptyField(fields)
-  }
-
+ 
   #checkIfEmptyField(fields) {
     for (const key in fields) {
       if (

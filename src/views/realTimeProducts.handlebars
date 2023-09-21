@@ -1,45 +1,42 @@
 <section class="products">
   <h1>LOAD YOUR PRODUCT</h1>
-  <div class="container">
+  <div class="container-fuid">
   <article>
-    <form class="create_form" enctype="multipart/form-data" >
+    <form class="form create_form border-2 bg-dark text-reset p-3" enctype="multipart/form-data" >
       <div>
-        <label for="title">Title</label>
-        <input type="text" name="title" />
+        <label class="form-label"  for="title">Title</label>
+        <input class="form-control" type="text" name="title" />
       </div>
       <div>
-        <label for="description">Description</label>
-        <textarea type="text" name="description"></textarea>
+        <label class="form-label"  for="code">Code</label>
+        <input class="form-control"  type="text" name="code" />
       </div>
       <div>
-        <label for="code">Code</label>
-        <input type="text" name="code" />
+        <label class="form-label"  for="price">Price</label>
+        <input class="form-control" type="text" name="price" />
       </div>
       <div>
-        <label for="price">Price</label>
-        <input type="text" name="price" />
+        <label class="form-label"  for="stock">Stock</label>
+        <input class="form-control" type="text" name="stock" />
       </div>
       <div>
-        <label for="stock">Stock</label>
-        <input type="text" name="stock" />
+        <label class="form-label"  for="category">Category</label>
+        <input class="form-control" type="text" name="category" />
       </div>
       <div>
-        <label for="category">Category</label>
-        <input type="text" name="category" />
+        <label class="form-label"  for="description">Description</label>
+        <textarea class="form-control" type="text" name="description"></textarea>
       </div>
       <div>
-        <label for="thumbnails">Images</label>
-        <input type="file" name="thumbnails" multiple />
+        <label class="form-label"  for="thumbnails">Images</label>
+        <input class="form-control" type="file" name="thumbnails" multiple />
       </div>
-      <input type="submit" value="Send">
+      <button class="btn btn-success mt-2" type="submit">LOAD</button>
     </form>
   </article>
-  <article class="products_list">
-    <!-- dinamyc content -->
-  </article>
-
   </div>
 </section>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/RTProducts.js"></script>
+

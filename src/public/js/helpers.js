@@ -27,7 +27,7 @@ const addToCart = async (e) => {
 const deleteProduct = async (e) => {
   if (e.target.classList.contains("deleteProduct")) {
     let pid = e.target.dataset.id;
-    let res = await fetch(`api/products/${pid}`, { method: "DELETE"});
+    let res = await fetch(`api/products/${pid}`, { method: "DELETE"})
     let message = await res.json();
     if (message?.success) {
       Swal.fire({
@@ -35,6 +35,7 @@ const deleteProduct = async (e) => {
         toast: true,
         position: "top-right",
       });
+      
     } else {
       Swal.fire({
         text: `${message.error}`,
@@ -42,5 +43,6 @@ const deleteProduct = async (e) => {
         position: "top-right",
       });
     }
+    setTimeout(() => window.location.href = `/products`, 300)
   }
 };
