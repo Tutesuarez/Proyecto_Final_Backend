@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { uploader } from "../path.js";
-import { authorizationRole,passportCall } from "../middleware/session..middleware.js";
+import { Router } from "express"
+import { uploader } from "../path.js"
+import { authorizationRole,passportCall } from "../middleware/session..middleware.js"
 import {
   getProducts,
   addProduct,

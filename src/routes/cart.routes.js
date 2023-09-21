@@ -22,9 +22,9 @@ router.post("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user"
 
 router.put("/:cid",passportCall("jwt"), authorizationRole(["user", "premium"]), updateProduct);
 
-router.put("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user", "premium"]), updateProductQuantity);
+router.put("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user", "premium"]), updateProductQuantity)
 
-router.delete("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user", "premium"]), productDelete);
+router.delete("/:cid/products/:pid",passportCall("jwt"), authorizationRole(["user", "premium"]), productDelete)
 
 router.get('/:cid/empty',passportCall("jwt"), authorizationRole(["user","premium","admin"]), emptyCart)
 

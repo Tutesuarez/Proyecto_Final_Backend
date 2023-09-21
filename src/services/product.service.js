@@ -1,4 +1,4 @@
-import ProductDTO from "../DTO/product.dto.js";
+import ProductDTO from "../DTO/product.dto.js"
 import ProductManager from "../persistence/MongoDbManagers/ProductManager.js"
 
 const productManager = new ProductManager()

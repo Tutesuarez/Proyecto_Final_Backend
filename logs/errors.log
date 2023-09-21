@@ -233,3 +233,9 @@
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
 {"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of null (reading 'role')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'query')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'query')"}
+{"level":"error","message":"Error Personalizado: TypeError - Cannot read properties of undefined (reading 'query')"}
+{"cause":"One or more arguments were incomplete or not valid.\n    List of required arguments:\n       *Title: needs to be string, recived: ll\n       *Description: needs to be string, recived: \n       *Code: needs to be string, recived: xd\n       *Price: needs to be string, recived: 22\n       *Stock: needs to be number, recived: 20\n       *Category: needs to be string, recived: man","code":1,"level":"error","message":"Error Personalizado: TYPE_ERROR - Error trying to create the product."}
+{"cause":"One or more arguments were incomplete or not valid.\n    List of required arguments:\n       *Title: needs to be string, recived: ll\n       *Description: needs to be string, recived: \n       *Code: needs to be string, recived: xd\n       *Price: needs to be string, recived: 22\n       *Stock: needs to be number, recived: 20\n       *Category: needs to be string, recived: man","code":1,"level":"error","message":"Error Personalizado: TYPE_ERROR - Error trying to create the product."}

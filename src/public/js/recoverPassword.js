@@ -1,8 +1,8 @@
-let userform = document.querySelector(".user_form");
+let userform = document.querySelector(".user_form")
 
 const sendForm = async (e) => {
   e.preventDefault();
-  let userinfo = Object.fromEntries(new FormData(userform));
+  let userinfo = Object.fromEntries(new FormData(userform))
   let response = await fetch(`/api/session/${e.target.id}`, {
     method: "POST",
     body: JSON.stringify(userinfo),
@@ -11,11 +11,11 @@ const sendForm = async (e) => {
   let message = await response.json();
   if (message.result.accepted.length > 0) {
     userform.reset();
-    alert(`We sent you an email with the link to reset your password.`);
-    setTimeout(() => window.location.href = "/login", 500);
+    alert(`We sent you an email with the link to reset your password.`)
+    setTimeout(() => window.location.href = "/login", 500)
   } else {
-    alert(message.error);
+    alert(message.error)
   }
 };
 
-userform.addEventListener("submit", sendForm);
+userform.addEventListener("submit", sendForm)

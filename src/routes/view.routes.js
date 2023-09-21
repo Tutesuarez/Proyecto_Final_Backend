@@ -1,6 +1,5 @@
 import { Router } from "express"
-import {getProducts} from '../controller/product.controller.js'
-import {authorizationRole, passportCall, passportCallRedirect } from "../middleware/session..middleware.js";
+import {authorizationRole, passportCall, passportCallRedirect } from "../middleware/session..middleware.js"
 import { 
   chatView, 
   errorLoginView, 
@@ -43,22 +42,9 @@ router.get("/resetpassword/:idurl", resetPasswordView)
 
 router.get("/recoverpassword", recoverPassword)
 
-router.get("/users", passportCall("jwt"), authorizationRole(["admin"]), usersView);
+router.get("/users", passportCall("jwt"), authorizationRole(["admin"]), usersView)
 
 router.get("/chat",passportCall("jwt"), authorizationRole(["user", "premium"]), chatView)
 
-//  router.get("/realtimeproducts",privateAccess, async (req, res) => {
-// //   const io = req.app.get("socketio")
-// //   const products = await productManager.getProducts();
-  
-//    res.render("realTimeProducts", {
-//     title: "FASHION - Load your products",
-//     style: "home",
-//   })
-// //   io.on("connection", (socket) => {
-// //     console.log("Client Conected")
-// //     socket.emit("products", products)
-// //   })
-//  })
 
 export default router;

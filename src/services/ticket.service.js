@@ -1,4 +1,4 @@
-import TicketManager from '../persistence/MongoDbManagers/ticket.Manager.js';
+import TicketManager from '../persistence/MongoDbManagers/ticket.Manager.js'
 
 
 const ticketManager = new TicketManager

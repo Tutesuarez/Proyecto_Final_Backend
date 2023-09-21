@@ -8,57 +8,52 @@ import { changePassword, findOneByEmail, recoverPass, roleChanger } from '../ser
 import { codeGenerator } from './ticket.controller.js'
 import { transporter } from '../utils/nodemailer.js'
 import { logger } from '../utils/logger.js';
-import { createOne, findById } from '../services/user.service.js'
+import { findById } from '../services/user.service.js'
 import { addCart } from '../services/cart.service.js'
 import { setLastConnection } from '../services/user.service.js'
 
 
 export const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body
     if (!email || !password) {
         console.log('Incomplete values')
         return res.json({ redirectURL: '/errorlogin' })
     }
     try {
         if (req.body.email === config.admin_email && req.body.password === config.admin_password) {
-                        req.session.user = {
-                            first_name: 'Coder',
-                            last_name: 'House',
-                            gender: '',
-                            email: req.body.email,
-                            password: req.body.password,
-                            role: 'admin'
-                        }
-                        return res.status(200).json({ redirectURL: '/perfil' });
-                    }
+            req.session.user = {
+                first_name: 'Coder',
+                last_name: 'House',
+                gender: '',
+                email: req.body.email,
+                password: req.body.password,
+                role: 'admin'
+            }
+            return res.status(200).json({ redirectURL: '/perfil' });
+        }
         const user = await findOneByEmail(email)
-        console.log(user);
+        console.log(user)
         if (!user) {
-            console.log('User not found');
-           return res.status(401).send({status: 'error', error: 'User not found',redirectURL:'/errorlogin'})
+            console.log('User not found')
+            return res.status(401).send({ status: 'error', error: 'User not found', redirectURL: '/errorlogin' })
         }
 
         if (!isValidPassword(user, password)) {
-            console.log('Invalid credentials');
-           return  res.status(401).send({status: 'error', error: 'User or Password are wrong', redirectURL:'/errorlogin' })
+            console.log('Invalid credentials')
+            return res.status(401).send({ status: 'error', error: 'User or Password are wrong', redirectURL: '/errorlogin' })
         }
         logger.info(`INFO => ${new Date()} - ${user.email} had log`);
-        
+
         delete user.password
         req.session.user = user
         await setLastConnection(user._id)
         const token = generateToken(user)
-        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).send({status: 'success', redirectURL:'/perfil'})
-        // const userRole = user.role || 'default';
-        // const redirectURLL = roleRedirects[userRole];
+        res.cookie("tokenBE", token, { maxAge: 60 * 60 * 1000, httpOnly: true }).send({ status: 'success', redirectURL: '/perfil' })
         return user;
     } catch (error) {
         res.status(500).send({ status: 'error' });
     }
 }
-
-
-  
 
 export const register = async (req, res) => {
     const { first_name, last_name, email, gender, password } = req.body
@@ -76,10 +71,8 @@ export const register = async (req, res) => {
             cart: { _id: resp._id },
             role: "user",
         }
-
         await userModel.create(user)
-
-       res.redirect('/login')
+        res.redirect('/login')
     } catch (error) {
         console.log(error)
         res.redirect('/errorsingup')
@@ -106,7 +99,7 @@ export const logout = async (req, res) => {
 }
 
 export const current = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body
 
     if (!email || !password) {
         console.log('Incomplete values')
@@ -125,22 +118,21 @@ export const current = async (req, res) => {
             }
             const user = req.session.user
             const token = generateToken(user)
-            console.log(user);
             return res.status(200).json({ message: 'login', token });
         }
         const user = await findOneByEmail(email)
         if (!user) {
             console.log('User not found')
             return res.status(404).json({ redirectURL: '/errorlogin' });
+        }
 
-        };
         if (!isValidPassword(user, password)) {
             console.log('Invalid credentials')
             return res.json({ redirectURL: '/errorlogin' })
         }
+
         delete user.password
         req.session.user = user
-        console.log(user)
 
         if (user.role === 'admin') {
             const token = generateToken(user)
@@ -153,7 +145,6 @@ export const current = async (req, res) => {
     } catch (error) {
         res.status(500).send({ status: 'error' })
     }
-
 }
 
 export const validation = (req, res) => {
@@ -166,6 +157,7 @@ export const destroySession = (req, res, next) => {
     if (req.session.login) {
         req.session.destroy(() => {
             res.status(200).json({ message: 'session destroyed' })
+
         })
     }
 }
@@ -179,13 +171,13 @@ export const getSession = (req, res, next) => {
 }
 
 export const resetpassword = async (req, res) => {
-    let { email, newpassword } = req.body;
+    let { email, newpassword } = req.body
     const user = await findOneByEmail(email)
     if (user?.error)
         return res.status(401).send({ error: `User not found` })
     if (isValidPassword(user, newpassword))
         return res.send({ error: `The new password must be different to the old` })
-    newpassword = createHash(newpassword);
+    newpassword = createHash(newpassword)
     let resp = await changePassword({ email, newpassword })
     resp?.error
         ? res.status(400).send({ error: res.error })
@@ -216,35 +208,35 @@ export const recoverpassword = async (req, res) => {
 
 export const changeRole = async (req, res) => {
     const { uid } = req.params
-    let user = await findById(uid) 
+    let user = await findById(uid)
     if (!user)
-      res.status(404).send({ status: "error", payload: "User not found" });
+        res.status(404).send({ status: "error", payload: "User not found" })
     if (user.role === "admin")
-      return res.status(404).send({
-        status: "error",
-        payload: "You can´t change an Admin user role.",
-      })
-    if (user.role === "user") {
-      if (user.documents) {
-        let identification = user.documents.find((doc) => doc.name !== "id");
-        let addressVerification = user.documents.find(
-          (doc) => doc.name !== "address"
-        );
-        let accountState = user.documents.find((doc) => doc.name !== "account");
-        if (!identification || !addressVerification || !accountState)
-          return res.status(404).send({
-            status: "error",
-            payload:
-              "You must upload all of the documents to become an premium user.",
-          });
-      } else {
         return res.status(404).send({
-          status: "error",
-          payload:
-            "You must upload all of the documents to become an premium user.",
-        });
-      }
+            status: "error",
+            payload: "You can´t change an Admin user role.",
+        })
+    if (user.role === "user") {
+        if (user.documents) {
+            let identification = user.documents.find((doc) => doc.name !== "id")
+            let addressVerification = user.documents.find(
+                (doc) => doc.name !== "address"
+            )
+            let accountState = user.documents.find((doc) => doc.name !== "account")
+            if (!identification || !addressVerification || !accountState)
+                return res.status(404).send({
+                    status: "error",
+                    payload:
+                        "You must upload all of the documents to become an premium user.",
+                })
+        } else {
+            return res.status(404).send({
+                status: "error",
+                payload:
+                    "You must upload all of the documents to become an premium user.",
+            })
+        }
     }
     let result = await roleChanger(uid)
-    res.send({ status: "success", payload: { message: 'The role was successfully modified.', result} })
-  }
+    res.send({ status: "success", payload: { message: 'The role was successfully modified.', result } })
+}

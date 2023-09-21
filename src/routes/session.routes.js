@@ -12,8 +12,8 @@ const routerSession = Router()
 routerSession.post('/login', login)
 routerSession.get('/logout', logout)
 routerSession.post('/register', register)
-routerSession.post("/resetpassword", resetpassword);
-routerSession.post("/recoverpassword", recoverpassword);
+routerSession.post("/resetpassword", resetpassword)
+routerSession.post("/recoverpassword", recoverpassword)
 routerSession.post('/current', current)
 routerSession.get('/validation', passportCall('jwt'), validation)
 
